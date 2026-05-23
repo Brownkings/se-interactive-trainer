@@ -1,4 +1,4 @@
-import { chaptersData, mockExamData } from './src/data/chapters_data.js';
+import { chaptersData, mockExamData, allExams } from './src/data/chapters_data.js';
 
 // --- APPLICATION STATE & LOCAL STORAGE ---
 const STATE_KEY = 'se_trainer_state_v1';
@@ -16,9 +16,11 @@ let state = {
   mockAnswers: {}, // questionNum -> text
   mockScores: {}, // questionNum -> score
   mockCompleted: false,
-  mockExamTimeRemaining: 7200, // 2 hours in seconds
+  mockExamTimeRemaining: 10800, // 3 hours in seconds
   mockActive: false,
-  unlockedBadges: []
+  unlockedBadges: [],
+  selectedExamId: null, // which exam is currently selected/active
+  examStates: {} // per-exam state: { [examId]: { answers, scores, completed, active, timeRemaining } }
 };
 
 // Load state from localStorage
@@ -54,9 +56,11 @@ function resetProgress() {
       mockAnswers: {},
       mockScores: {},
       mockCompleted: false,
-      mockExamTimeRemaining: 7200,
+      mockExamTimeRemaining: 10800,
       mockActive: false,
-      unlockedBadges: []
+      unlockedBadges: [],
+      selectedExamId: null,
+      examStates: {}
     };
     saveState();
     updateUI();
@@ -940,18 +944,63 @@ document.getElementById('btn-quiz-essay-next').addEventListener('click', () => {
 let examQuestions = [];
 let examActiveIdx = 0;
 let examTimerInterval = null;
+let currentExamData = null;
+
+// Helper to get/create per-exam state
+function getExamState(examId) {
+  if (!state.examStates[examId]) {
+    state.examStates[examId] = {
+      answers: {},
+      scores: {},
+      completed: false,
+      active: false,
+      timeRemaining: 10800
+    };
+  }
+  return state.examStates[examId];
+}
+
+// Sync selected exam state into the legacy state fields (for backward compat)
+function syncExamToLegacy(examId) {
+  const es = getExamState(examId);
+  state.mockAnswers = es.answers;
+  state.mockScores = es.scores;
+  state.mockCompleted = es.completed;
+  state.mockActive = es.active;
+  state.mockExamTimeRemaining = es.timeRemaining;
+  state.selectedExamId = examId;
+}
+
+function syncLegacyToExam(examId) {
+  const es = getExamState(examId);
+  es.answers = state.mockAnswers;
+  es.scores = state.mockScores;
+  es.completed = state.mockCompleted;
+  es.active = state.mockActive;
+  es.timeRemaining = state.mockExamTimeRemaining;
+}
 
 function renderMockExam() {
   const intro = document.getElementById('mock-exam-intro-screen');
   const active = document.getElementById('mock-exam-active-screen');
   const results = document.getElementById('mock-exam-results-screen');
   
-  if (state.mockCompleted) {
+  // Render exam selector cards
+  renderExamSelector();
+
+  if (state.selectedExamId) {
+    currentExamData = allExams.find(e => e.id === state.selectedExamId);
+    syncExamToLegacy(state.selectedExamId);
+  } else {
+    currentExamData = null;
+  }
+  
+  if (state.mockCompleted && currentExamData) {
     intro.style.display = 'none';
     active.style.display = 'none';
     results.style.display = 'block';
     renderMockResults();
-  } else if (state.mockActive) {
+  } else if (state.mockActive && currentExamData) {
     intro.style.display = 'none';
     active.style.display = 'block';
     results.style.display = 'none';
@@ -963,18 +1012,66 @@ function renderMockExam() {
   }
 }
 
+function renderExamSelector() {
+  let selectorContainer = document.getElementById('exam-selector-container');
+  if (!selectorContainer) return;
+  selectorContainer.innerHTML = '';
+
+  allExams.forEach((exam, idx) => {
+    const es = getExamState(exam.id);
+    const isSelected = state.selectedExamId === exam.id;
+    const qCount = exam.questions ? exam.questions.length : 0;
+    const totalMarks = exam.questions ? exam.questions.reduce((s, q) => s + q.marks, 0) : 100;
+    
+    let statusBadge = '';
+    let statusClass = '';
+    if (es.completed) {
+      const totalScore = Object.values(es.scores).reduce((s, v) => s + v, 0);
+      statusBadge = `<span class="exam-status-badge completed">✓ Scored: ${totalScore}/${totalMarks}</span>`;
+      statusClass = 'completed';
+    } else if (es.active) {
+      statusBadge = '<span class="exam-status-badge active">⏱ In Progress</span>';
+      statusClass = 'in-progress';
+    }
+
+    const card = document.createElement('div');
+    card.className = `exam-select-card glass-panel ${isSelected ? 'selected' : ''} ${statusClass}`;
+    card.innerHTML = `
+      <div class="exam-select-number">Exam ${idx + 1}</div>
+      <div class="exam-select-title">${exam.title}</div>
+      <div class="exam-select-meta">${qCount} Questions · ${totalMarks} Marks · 3 Hours</div>
+      ${statusBadge}
+    `;
+    card.addEventListener('click', () => {
+      // Save current exam state if switching
+      if (state.selectedExamId && state.selectedExamId !== exam.id) {
+        syncLegacyToExam(state.selectedExamId);
+      }
+      state.selectedExamId = exam.id;
+      saveState();
+      renderMockExam();
+    });
+    selectorContainer.appendChild(card);
+  });
+}
+
 document.getElementById('btn-start-mock-exam').addEventListener('click', () => {
+  if (!currentExamData) {
+    alert('Please select an exam first.');
+    return;
+  }
   state.mockActive = true;
-  state.mockExamTimeRemaining = 7200; // 2 hours
+  state.mockExamTimeRemaining = 10800; // 3 hours
   state.mockAnswers = {};
   state.mockScores = {};
+  syncLegacyToExam(state.selectedExamId);
   saveState();
   
   renderMockExam();
 });
 
 function initActiveMockExam() {
-  examQuestions = mockExamData.questions || [];
+  examQuestions = currentExamData ? currentExamData.questions || [] : [];
   examActiveIdx = 0;
   
   // Render navigator dots
@@ -994,6 +1091,7 @@ function initActiveMockExam() {
     } else {
       updateTimerDisplay();
       if (state.mockExamTimeRemaining % 30 === 0) {
+        syncLegacyToExam(state.selectedExamId);
         saveState(); // Autosave every 30s
       }
     }
@@ -1098,6 +1196,7 @@ document.getElementById('btn-submit-mock-exam').addEventListener('click', () => 
     saveExamDraftAnswer();
     clearInterval(examTimerInterval);
     state.mockActive = false;
+    syncLegacyToExam(state.selectedExamId);
     
     // Prepare the evaluation queue of all questions
     evalQueue = [...examQuestions];
@@ -1111,6 +1210,7 @@ function openEvaluationModal() {
   if (currentEvalIdx >= evalQueue.length) {
     // Finished all grading!
     state.mockCompleted = true;
+    syncLegacyToExam(state.selectedExamId);
     saveState();
     checkAchievements();
     renderMockExam();
@@ -1157,6 +1257,7 @@ function submitMockExamAuto() {
   });
   state.mockActive = false;
   state.mockCompleted = true;
+  syncLegacyToExam(state.selectedExamId);
   saveState();
   renderMockExam();
 }
@@ -1209,6 +1310,7 @@ document.getElementById('btn-close-exam-results').addEventListener('click', () =
     state.mockCompleted = false;
     state.mockAnswers = {};
     state.mockScores = {};
+    syncLegacyToExam(state.selectedExamId);
     saveState();
     renderMockExam();
     navigateView('dashboard-view');

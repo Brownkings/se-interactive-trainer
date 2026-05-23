@@ -245,13 +245,34 @@ function compile() {
     }
   }
 
+  // Parse all exam files
+  const allExams = [];
+
   const mockExamFile = fs.readdirSync(WORKSPACE_DIR).find(f => f.toLowerCase() === 'mock_exam.md');
-  let mockExamData = null;
   if (mockExamFile) {
-    console.log(`Parsing Mock Exam: ${mockExamFile}`);
-    mockExamData = parseMockExam(path.join(WORKSPACE_DIR, mockExamFile));
-  } else {
-    console.warn(`Warning: Mock Exam not found!`);
+    console.log(`Parsing Exam 1: ${mockExamFile}`);
+    const exam1 = parseMockExam(path.join(WORKSPACE_DIR, mockExamFile));
+    exam1.id = 'mock_exam_1';
+    exam1.title = 'Mock Exam 1 — Practice Examination';
+    allExams.push(exam1);
+  }
+
+  const prevExamFile = fs.readdirSync(WORKSPACE_DIR).find(f => f.toLowerCase() === 'previous_exam_2025.md');
+  if (prevExamFile) {
+    console.log(`Parsing Exam 2: ${prevExamFile}`);
+    const exam2 = parseMockExam(path.join(WORKSPACE_DIR, prevExamFile));
+    exam2.id = 'spu_main_2025';
+    exam2.title = 'SPU Main Exam — June 2025';
+    allExams.push(exam2);
+  }
+
+  const practiceExam3File = fs.readdirSync(WORKSPACE_DIR).find(f => f.toLowerCase() === 'practice_exam_3.md');
+  if (practiceExam3File) {
+    console.log(`Parsing Exam 3: ${practiceExam3File}`);
+    const exam3 = parseMockExam(path.join(WORKSPACE_DIR, practiceExam3File));
+    exam3.id = 'practice_exam_3';
+    exam3.title = 'Practice Exam 3 — Comprehensive Review';
+    allExams.push(exam3);
   }
 
   // Ensure output directory exists
@@ -263,11 +284,14 @@ function compile() {
   const outputJs = `// Auto-generated data file. Do not edit directly.
 export const chaptersData = ${JSON.stringify(chapters, null, 2)};
 
-export const mockExamData = ${JSON.stringify(mockExamData, null, 2)};
+export const mockExamData = ${JSON.stringify(allExams.length > 0 ? allExams[0] : null, null, 2)};
+
+export const allExams = ${JSON.stringify(allExams, null, 2)};
 `;
 
   fs.writeFileSync(OUTPUT_FILE, outputJs, 'utf-8');
-  console.log(`Successfully compiled data to ${OUTPUT_FILE}`);
+  console.log(`Successfully compiled ${allExams.length} exams and ${chapters.length} chapters to ${OUTPUT_FILE}`);
 }
 
 compile();
+
