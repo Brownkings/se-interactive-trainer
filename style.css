@@ -1315,3 +1315,129 @@ ul.learn-sublist > li::before {
   border: 1px solid rgba(245, 158, 11, 0.3);
   color: var(--warning);
 }
+
+/* Inline Practice Test Styling in Learn Mode */
+.static-quiz-container {
+  margin-top: 32px;
+  border-top: 2px dashed rgba(255, 255, 255, 0.1);
+  padding-top: 32px;
+}
+
+.static-quiz-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.static-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-hover);
+  margin: 24px 0 16px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 8px;
+}
+
+.static-q-card {
+  margin-bottom: 24px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+}
+
+.static-q-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.static-q-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.static-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.static-option {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.static-option-letter {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  margin-right: 12px;
+}
+
+.static-option.correct {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.2);
+  color: var(--secondary);
+}
+
+.static-option.correct .static-option-letter {
+  background: var(--secondary);
+  color: white;
+}
+
+.static-explanation, .static-solution {
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.static-explanation {
+  background: rgba(139, 92, 246, 0.05);
+  border-left: 3px solid var(--primary);
+  color: var(--text-primary);
+}
+
+.static-solution {
+  background: rgba(16, 185, 129, 0.05);
+  border-left: 3px solid var(--secondary);
+  color: var(--text-primary);
+}
+
+.static-cta-box {
+  margin-bottom: 32px;
+  padding: 16px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--text-primary);
+}

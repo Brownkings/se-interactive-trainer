@@ -596,6 +596,82 @@ function renderLearnMode() {
     
     container.appendChild(card);
   });
+
+  // Append static Practice Test & Answer Key if available
+  const mcqs = currentActiveChapter.mcqs || [];
+  const shortAnswers = currentActiveChapter.shortAnswers || [];
+  
+  if (mcqs.length > 0 || shortAnswers.length > 0) {
+    const quizCard = document.createElement('article');
+    quizCard.className = 'learn-card glass-panel static-quiz-container';
+    
+    let html = `
+      <div class="static-quiz-title">📝 Practice Test & Study Solutions</div>
+      
+      <div class="static-cta-box glass-panel">
+        <span><strong>Interactive Mode Available:</strong> Want to test your active recall and score XP? Try the interactive practice quiz!</span>
+        <button class="btn btn-primary btn-sm" id="btn-switch-to-interactive-quiz" style="font-size:12px; padding:6px 12px; white-space: nowrap;">Start Quiz ✏️</button>
+      </div>
+    `;
+    
+    if (mcqs.length > 0) {
+      html += `<div class="static-section-title">Section A: Multiple-Choice Questions</div>`;
+      mcqs.forEach((q, idx) => {
+        const letters = ['a', 'b', 'c', 'd'];
+        let optionsHtml = '';
+        q.options.forEach((opt, optIdx) => {
+          const letter = letters[optIdx];
+          const isCorrect = letter === q.answer;
+          optionsHtml += `
+            <div class="static-option ${isCorrect ? 'correct' : ''}">
+              <div class="static-option-letter">${letter.toUpperCase()}</div>
+              <div>${opt}</div>
+            </div>
+          `;
+        });
+        
+        html += `
+          <div class="static-q-card">
+            <div class="static-q-num">Question ${idx + 1}</div>
+            <div class="static-q-text">${q.question}</div>
+            <div class="static-options-list">
+              ${optionsHtml}
+            </div>
+            <div class="static-explanation">
+              <strong>Correct Answer: ${q.answer.toUpperCase()}</strong> — ${q.explanation}
+            </div>
+          </div>
+        `;
+      });
+    }
+    
+    if (shortAnswers.length > 0) {
+      html += `<div class="static-section-title">Section B: Short-Answer & Scenario Questions</div>`;
+      shortAnswers.forEach((q) => {
+        html += `
+          <div class="static-q-card">
+            <div class="static-q-num">Question ${q.num}</div>
+            <div class="static-q-text">${q.question}</div>
+            <div class="static-solution">
+              <strong>Suggested Model Solution:</strong>
+              <p style="margin-top: 8px; white-space: pre-line;">${q.solution}</p>
+            </div>
+          </div>
+        `;
+      });
+    }
+    
+    quizCard.innerHTML = html;
+    container.appendChild(quizCard);
+    
+    // Add event listener to CTA button
+    const ctaBtn = quizCard.querySelector('#btn-switch-to-interactive-quiz');
+    if (ctaBtn) {
+      ctaBtn.addEventListener('click', () => {
+        switchTab('quiz');
+      });
+    }
+  }
 }
 
 // --- FLASHCARDS MODE (KEY TERMS) ---
