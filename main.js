@@ -211,6 +211,11 @@ function navigateView(targetId) {
     if (link.getAttribute('data-target') === targetId) link.classList.add('active');
   });
   
+  const mainViewport = document.querySelector('.main-viewport');
+  if (mainViewport) {
+    mainViewport.scrollTop = 0;
+  }
+  
   // Custom View Entry Triggers
   if (targetId === 'dashboard-view') {
     renderDashboard();
@@ -984,6 +989,11 @@ function renderMockExam() {
   const intro = document.getElementById('mock-exam-intro-screen');
   const active = document.getElementById('mock-exam-active-screen');
   const results = document.getElementById('mock-exam-results-screen');
+  
+  const mainViewport = document.querySelector('.main-viewport');
+  if (mainViewport) {
+    mainViewport.scrollTop = 0;
+  }
   
   // Render exam selector cards
   renderExamSelector();
