@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Software Engineering Interactive Learning Platform - Master software engineering concepts chapter-by-chapter with active recall, flashcards, quizzes, and simulated mock exams.">
+  <title>Software Engineering Interactive Trainer</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation & Profile -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="logo-section">
+          <div class="logo-icon">SE</div>
+          <div class="logo-text">SE Trainer</div>
+        </div>
+        <nav>
+          <ul class="nav-links">
+            <li><a class="nav-link active" id="nav-dashboard" data-target="dashboard-view"><span>📊</span> Dashboard</a></li>
+            <li><a class="nav-link" id="nav-review" data-target="review-view"><span>🔁</span> Review Deck</a></li>
+            <li><a class="nav-link" id="nav-mock-exam" data-target="mock-exam-view"><span>📝</span> Mock Exam</a></li>
+            <li><a class="nav-link" id="nav-badges" data-target="badges-view"><span>🏆</span> Achievements</a></li>
+          </ul>
+        </nav>
+      </div>
+      
+      <!-- Gamification Panel -->
+      <div class="user-profile-widget glass-panel" id="user-profile-widget">
+        <div class="profile-header">
+          <div class="avatar-badge" id="user-avatar">👤</div>
+          <div>
+            <h4 id="user-rank">Novice Engineer</h4>
+            <div class="level-indicator">Level <span id="user-level">1</span></div>
+          </div>
+        </div>
+        <div class="xp-container">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: var(--text-secondary);">
+            <span>XP: <span id="current-xp">0</span>/<span id="next-level-xp">100</span></span>
+            <span id="streak-indicator">🔥 0 Days</span>
+          </div>
+          <div class="xp-bar">
+            <div class="xp-fill" id="xp-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-viewport">
+      
+      <!-- 1. DASHBOARD VIEW -->
+      <section class="view-section active" id="dashboard-view">
+        <header>
+          <h1 class="gradient-text" style="font-size: 32px; margin-bottom: 8px;">Software Engineering I</h1>
+          <p style="color: var(--text-secondary); margin-bottom: 24px;">Interactive Exam Preparation & Study Portal</p>
+        </header>
+
+        <div class="dashboard-grid">
+          <div class="dashboard-main">
+            <!-- Overall Stats -->
+            <div class="stats-row">
+              <div class="stat-card glass-panel">
+                <h3>Mastery Progress</h3>
+                <div class="value" id="overall-progress-text">0%</div>
+                <div class="progress-bar-bg" style="margin-top: 8px; height: 4px;">
+                  <div class="progress-bar-fill" id="overall-progress-bar" style="width: 0%;"></div>
+                </div>
+              </div>
+              <div class="stat-card glass-panel">
+                <h3>Total Score / XP</h3>
+                <div class="value" id="total-xp-display">0</div>
+              </div>
+              <div class="stat-card glass-panel">
+                <h3>Spaced Review Cards</h3>
+                <div class="value" id="spaced-review-count">0</div>
+              </div>
+            </div>
+
+            <!-- Chapters List -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <h2>Study Modules</h2>
+              <button class="btn btn-secondary" id="btn-reset-data" style="font-size: 11px; padding: 4px 10px;">Reset Progress</button>
+            </div>
+            <div class="chapters-list" id="chapters-list-container">
+              <!-- Dynamically populated by main.js -->
+            </div>
+          </div>
+
+          <!-- Dashboard Sidebar (Quick Stats & Achievements) -->
+          <div class="dashboard-sidebar">
+            <div class="glass-panel" style="padding: 24px; margin-bottom: 24px;">
+              <h3 style="font-size: 18px; margin-bottom: 16px;">Daily Motivation</h3>
+              <div style="font-size: 14px; line-height: 1.5; color: var(--text-secondary); font-style: italic;" id="motivational-quote">
+                "Active recall is 150% more effective for long-term memorization than passive reading. Try the Key Terms Flashcards!"
+              </div>
+            </div>
+            
+            <div class="glass-panel" style="padding: 24px;">
+              <h3 style="font-size: 18px; margin-bottom: 16px;">Recent Badges</h3>
+              <div class="badges-container" id="recent-badges-container">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. CHAPTER DETAIL VIEW -->
+      <section class="view-section" id="chapter-detail-view">
+        <header class="chapter-header-nav">
+          <button class="btn btn-secondary" id="btn-back-to-dashboard">⬅ Back to Dashboard</button>
+          <div style="text-align: right;">
+            <div class="chapter-number" id="chapter-detail-number">Chapter 1</div>
+            <h2 id="chapter-detail-title" style="font-size: 24px;">Introduction to Software Engineering</h2>
+          </div>
+        </header>
+
+        <!-- Chapter Study Modes Tabs -->
+        <nav class="tab-nav">
+          <button class="tab-btn active" id="tab-learn" data-tab="tab-learn-pane">📖 Learn Content</button>
+          <button class="tab-btn" id="tab-flashcards" data-tab="tab-flashcards-pane">📇 Key Terms</button>
+          <button class="tab-btn" id="tab-quiz" data-tab="tab-quiz-pane">✏️ Practice Quiz</button>
+        </nav>
+
+        <!-- A. Learn Content Tab -->
+        <div class="tab-pane active-pane" id="tab-learn-pane">
+          <div class="learn-deck" id="learn-deck-container">
+            <!-- Dynamically populated by main.js -->
+          </div>
+        </div>
+
+        <!-- B. Flashcard Mode Tab -->
+        <div class="tab-pane" id="tab-flashcards-pane" style="display: none;">
+          <div class="flashcards-container">
+            <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 14px;" id="flashcard-deck-progress">
+              Card 1 of 10
+            </p>
+            <div class="flashcard-3d-scene" id="flashcard-element">
+              <div class="flashcard-inner">
+                <!-- Front Side -->
+                <div class="flashcard-face flashcard-front">
+                  <h2 id="flashcard-front-text">Term Name</h2>
+                  <div class="flashcard-hint">Click card to reveal definition</div>
+                </div>
+                <!-- Back Side -->
+                <div class="flashcard-face flashcard-back">
+                  <p id="flashcard-back-text">Definition goes here...</p>
+                  <div class="flashcard-hint" style="margin-top: 24px; color: var(--primary-hover);">Click again to flip back</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="flashcard-controls">
+              <button class="btn btn-secondary" id="btn-flashcard-prev">Previous</button>
+              <button class="btn btn-secondary" id="btn-flashcard-needs-review" style="border-color: var(--danger-glow); color: var(--danger);">❌ Need Review</button>
+              <button class="btn btn-primary" id="btn-flashcard-got-it" style="background: var(--secondary);">✓ Got It!</button>
+              <button class="btn btn-secondary" id="btn-flashcard-next">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- C. Practice Quiz Mode Tab -->
+        <div class="tab-pane" id="tab-quiz-pane" style="display: none;">
+          <!-- MCQs Section -->
+          <div id="quiz-mcq-container">
+            <div class="glass-panel quiz-question-box" id="quiz-mcq-box">
+              <div class="quiz-q-meta" id="quiz-mcq-number">Question 1 of 4 (Section A: Multiple Choice)</div>
+              <div class="quiz-q-text" id="quiz-mcq-text">Question Text</div>
+              <div class="mcq-options-container" id="quiz-mcq-options">
+                <!-- MCQ option cards -->
+              </div>
+              <div class="quiz-explanation-box glass-panel" id="quiz-mcq-explanation">
+                <strong>Answer Explanation:</strong>
+                <p id="quiz-mcq-explanation-text" style="margin-top: 8px; color: var(--text-secondary);"></p>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+              <button class="btn btn-secondary" id="btn-quiz-mcq-prev">Previous Question</button>
+              <button class="btn btn-primary" id="btn-quiz-mcq-next">Next Question / Short Answer</button>
+            </div>
+          </div>
+
+          <!-- Essay Questions Section -->
+          <div id="quiz-essay-container" style="display: none;">
+            <div class="glass-panel quiz-question-box" id="quiz-essay-box">
+              <div class="quiz-q-meta" id="quiz-essay-number">Question 5 (Section B: Short-Answer)</div>
+              <div class="quiz-q-text" id="quiz-essay-text">Question Text</div>
+              
+              <div class="essay-input-container">
+                <label for="quiz-essay-input" style="font-size: 14px; color: var(--text-secondary);">Type your response below to practice retrieval:</label>
+                <textarea id="quiz-essay-input" class="essay-textarea" placeholder="Explain the concept in your own words. Be as detailed as possible to maximize active recall..."></textarea>
+                <div>
+                  <button class="btn btn-primary" id="btn-quiz-essay-submit">Reveal Suggested Answer</button>
+                </div>
+              </div>
+
+              <!-- Suggested Answer & Self Evaluation -->
+              <div class="model-solution-box glass-panel" id="quiz-essay-solution-box">
+                <strong style="color: var(--secondary);">Suggested Model Solution:</strong>
+                <p id="quiz-essay-solution-text" style="margin-top: 8px; color: var(--text-primary); white-space: pre-line;"></p>
+                
+                <div class="self-eval-container">
+                  <span style="font-size: 14px; font-weight: 600; color: var(--text-secondary);">Rate your retrieval accuracy to score points:</span>
+                  <div class="self-eval-buttons">
+                    <button class="btn btn-secondary" style="border-color: var(--danger-glow); color: var(--danger);" id="btn-self-eval-incorrect">Incorrect (0 XP)</button>
+                    <button class="btn btn-secondary" style="border-color: var(--warning-glow); color: var(--warning);" id="btn-self-eval-partial">Partially Correct (50 XP)</button>
+                    <button class="btn btn-primary" style="background: var(--secondary);" id="btn-self-eval-correct">Fully Correct (100 XP)</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <button class="btn btn-secondary" id="btn-quiz-essay-prev">Back to MCQs</button>
+              <button class="btn btn-primary" id="btn-quiz-essay-next">Next Short Answer</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. SPACED REPETITION REVIEW DECK -->
+      <section class="view-section" id="review-view">
+        <header style="margin-bottom: 32px;">
+          <h1 class="gradient-text" style="font-size: 32px; margin-bottom: 8px;">Spaced Repetition Review Deck</h1>
+          <p style="color: var(--text-secondary);">Practice terms flagged as "Need Review" to move them into permanent long-term memory.</p>
+        </header>
+
+        <div id="review-deck-empty" style="text-align: center; padding: 64px 32px;" class="glass-panel">
+          <div style="font-size: 48px; margin-bottom: 16px;">🎉</div>
+          <h2>Review Deck Clear!</h2>
+          <p style="color: var(--text-secondary); margin-top: 8px; max-width: 500px; margin-left: auto; margin-right: auto;">
+            You have no terms flagged for review. Go to the "Key Terms" section inside any study module and flag concepts you struggle with.
+          </p>
+        </div>
+
+        <div id="review-deck-active" style="display: none;" class="flashcards-container">
+          <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 14px;" id="review-card-progress">
+            Review Card 1 of 5
+          </p>
+          <div class="flashcard-3d-scene" id="review-card-element">
+            <div class="flashcard-inner">
+              <!-- Front Side -->
+              <div class="flashcard-face flashcard-front">
+                <h2 id="review-card-front-text">Term</h2>
+                <div class="flashcard-hint">Click card to reveal definition</div>
+              </div>
+              <!-- Back Side -->
+              <div class="flashcard-face flashcard-back">
+                <p id="review-card-back-text">Definition...</p>
+                <div class="flashcard-hint" style="margin-top: 24px; color: var(--primary-hover);">Click again to flip back</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flashcard-controls">
+            <button class="btn btn-secondary" id="btn-review-keep" style="border-color: var(--warning-glow); color: var(--warning);">🔁 Keep in Review Deck</button>
+            <button class="btn btn-primary" id="btn-review-mastered" style="background: var(--secondary);">✓ Mastered (Remove)</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. MOCK EXAM VIEW -->
+      <section class="view-section" id="mock-exam-view">
+        <div id="mock-exam-intro-screen" class="glass-panel" style="padding: 40px; text-align: center; max-width: 700px; margin: 40px auto;">
+          <div style="font-size: 48px; margin-bottom: 16px;">⏱️</div>
+          <h2 style="font-size: 28px; margin-bottom: 16px;">Simulated Software Engineering Mock Exam</h2>
+          <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px; text-align: left;">
+            This mock exam replicates the real exam structure with a total of 100 marks divided into three parts:
+          </p>
+          <ul style="text-align: left; color: var(--text-secondary); margin-bottom: 24px; padding-left: 20px;">
+            <li style="margin-bottom: 8px;"><strong>Section A: Theory & Core Concepts</strong> (Questions 1-7, 40 Marks)</li>
+            <li style="margin-bottom: 8px;"><strong>Section B: UML Modeling & Diagram Design</strong> (Questions 8-10, 30 Marks)</li>
+            <li style="margin-bottom: 8px;"><strong>Section C: Case Studies & Scenario Analysis</strong> (Questions 11-13, 30 Marks)</li>
+          </ul>
+          <div style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.15); padding: 16px; border-radius: 8px; margin-bottom: 24px; text-align: left;">
+            ⚠️ <strong>Rules:</strong> Once started, you have a <strong>2-hour timer</strong>. Submitting early compiles your grade. Refreshing the browser will save your answers in draft mode but the timer will keep ticking.
+          </div>
+          <button class="btn btn-primary" id="btn-start-mock-exam" style="font-size: 18px; padding: 14px 28px;">Start Mock Exam</button>
+        </div>
+
+        <!-- Active Mock Exam Screen -->
+        <div id="mock-exam-active-screen" style="display: none;">
+          <header class="mock-exam-header">
+            <div>
+              <h2>Software Engineering I Mock Exam</h2>
+              <p style="color: var(--text-secondary);" id="exam-sec-title">Section A: Theory & Core Concepts</p>
+            </div>
+            <div class="timer-widget" id="exam-timer-widget">
+              <span>⏰</span> <span id="exam-time-display">02:00:00</span>
+            </div>
+          </header>
+
+          <div class="mock-grid">
+            <!-- Question Space -->
+            <div class="dashboard-main">
+              <div class="glass-panel quiz-question-box">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                  <h3 style="font-size: 20px;" id="mock-q-title">Question 1: Title</h3>
+                  <span class="quiz-q-meta" id="mock-q-marks" style="margin-bottom: 0;">5 Marks</span>
+                </div>
+                
+                <p id="mock-q-description" style="white-space: pre-line; line-height: 1.6; margin-bottom: 24px; font-size: 15px; color: var(--text-primary);"></p>
+                
+                <div class="essay-input-container">
+                  <label for="mock-q-answer-input" style="font-size: 14px; color: var(--text-secondary);">Your Response / Solution Notes:</label>
+                  <textarea id="mock-q-answer-input" class="essay-textarea" placeholder="Type your full answer here. Use bullet points and paragraphs as needed..."></textarea>
+                </div>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <button class="btn btn-secondary" id="btn-mock-prev">Previous Question</button>
+                <button class="btn btn-primary" id="btn-mock-next">Next Question</button>
+              </div>
+            </div>
+
+            <!-- Exam Sidebar Navigation -->
+            <div class="dashboard-sidebar">
+              <div class="glass-panel exam-nav-panel">
+                <h3 style="font-size: 16px; margin-bottom: 12px;">Exam Navigator</h3>
+                
+                <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px;">Section A</div>
+                <div class="exam-q-grid" id="exam-sec-a-dots">
+                  <!-- Dots populated by js -->
+                </div>
+
+                <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-top: 16px; margin-bottom: 8px;">Section B</div>
+                <div class="exam-q-grid" id="exam-sec-b-dots">
+                  <!-- Dots populated by js -->
+                </div>
+
+                <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-top: 16px; margin-bottom: 8px;">Section C</div>
+                <div class="exam-q-grid" id="exam-sec-c-dots">
+                  <!-- Dots populated by js -->
+                </div>
+
+                <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+                  <button class="btn btn-primary" id="btn-submit-mock-exam" style="width: 100%; justify-content: center; background: var(--danger);">Submit Exam</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grading & Review Screen -->
+        <div id="mock-exam-results-screen" style="display: none;">
+          <div class="glass-panel grading-dashboard" style="max-width: 800px; margin: 0 auto;">
+            <div style="font-size: 48px;">🎓</div>
+            <h2 style="font-size: 28px; margin-top: 16px;">Mock Exam Submitted & Graded</h2>
+            <p style="color: var(--text-secondary); margin-top: 8px;">Self-evaluative grading summary based on suggested answer comparison.</p>
+            
+            <div class="score-display">
+              <span id="exam-final-score">0</span> / 100
+            </div>
+            
+            <div id="exam-grade-banner" style="font-family: 'Outfit'; font-weight: 800; font-size: 24px; color: var(--secondary); margin-bottom: 32px;">
+              GRADE: A (EXCELLENT)
+            </div>
+
+            <h3>Question Breakdown & Self Evaluation</h3>
+            <table class="results-breakdown">
+              <thead>
+                <tr>
+                  <th>Q#</th>
+                  <th>Topic</th>
+                  <th>Max</th>
+                  <th>Self Score</th>
+                  <th>Suggested Solution</th>
+                </tr>
+              </thead>
+              <tbody id="exam-results-tbody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+
+            <button class="btn btn-primary" id="btn-close-exam-results" style="margin-top: 24px;">Return to Dashboard</button>
+          </div>
+        </div>
+
+        <!-- Self Evaluation Dialog Modal (for evaluating short answers in Mock Exam) -->
+        <div id="mock-eval-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center; padding: 20px;">
+          <div class="glass-panel" style="max-width: 700px; width: 100%; padding: 32px; max-height: 90vh; overflow-y: auto; background: #120e2c;">
+            <h3 style="font-size: 22px; color: var(--primary-hover); margin-bottom: 16px;">Evaluate Question <span id="modal-q-num">1</span></h3>
+            
+            <div style="margin-bottom: 16px;">
+              <strong>Your Answer:</strong>
+              <div id="modal-user-ans" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 16px; border-radius: 8px; margin-top: 8px; font-size: 14px; color: var(--text-secondary); white-space: pre-line; min-height: 80px;"></div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+              <strong style="color: var(--secondary);">Suggested Solution:</strong>
+              <div id="modal-model-ans" style="background: rgba(16,185,129,0.03); border: 1px solid rgba(16,185,129,0.1); padding: 16px; border-radius: 8px; margin-top: 8px; font-size: 14px; color: var(--text-primary); white-space: pre-line; min-height: 80px;"></div>
+            </div>
+
+            <div class="self-eval-container">
+              <span style="font-size: 14px; font-weight: 600; color: var(--text-secondary);">Based on the model answer, rate your response (0 to <span id="modal-max-score">5</span> marks):</span>
+              <div style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;" id="modal-mark-buttons">
+                <!-- Dynamically populated mark buttons -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. ACHIEVEMENTS & PROGRESS VIEW -->
+      <section class="view-section" id="badges-view">
+        <header style="margin-bottom: 32px;">
+          <h1 class="gradient-text" style="font-size: 32px; margin-bottom: 8px;">Your Achievements & Rewards</h1>
+          <p style="color: var(--text-secondary);">Earn badges and gain titles as you read sections, review flashcards, and pass quizzes.</p>
+        </header>
+
+        <div class="glass-panel" style="padding: 32px; margin-bottom: 32px;">
+          <h2 style="font-size: 22px; margin-bottom: 24px;">All Badges</h2>
+          <div class="badges-container" id="badges-grid-all" style="grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 24px;">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 32px;">
+          <h2 style="font-size: 22px; margin-bottom: 16px;">Trophy Room & Ranking System</h2>
+          <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 20px;">
+            Your level climbs as you accumulate XP from correct quiz answers and self-assessed study questions:
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px;">
+            <div style="display: flex; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+              <span><strong>Level 1 - 2</strong></span>
+              <span style="color: var(--text-muted);">Novice Engineer (Default)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+              <span><strong>Level 3 - 5</strong></span>
+              <span style="color: var(--primary-hover); font-weight: 600;">Systems Analyst (Requires 200+ XP)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+              <span><strong>Level 6 - 8</strong></span>
+              <span style="color: var(--secondary); font-weight: 600;">Senior Architect (Requires 500+ XP)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+              <span><strong>Level 9+</strong></span>
+              <span style="color: var(--warning); font-weight: 800;">Software Guru (Requires 900+ XP)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+  
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
