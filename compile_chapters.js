@@ -5,7 +5,27 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const WORKSPACE_DIR = path.resolve(__dirname, 'content');
+const SUBJECTS = {
+  se: {
+    dir: path.resolve(__dirname, 'content/se'),
+    chapterCount: 8,
+    examFiles: [
+      { file: 'Mock_Exam.md', id: 'mock_exam_1', title: 'Mock Exam 1 — Practice Examination' },
+      { file: 'Previous_Exam_2025.md', id: 'spu_main_2025', title: 'SPU Main Exam — June 2025' },
+      { file: 'Practice_Exam_3.md', id: 'practice_exam_3', title: 'Practice Exam 3 — Comprehensive Review' }
+    ]
+  },
+  nhci: {
+    dir: path.resolve(__dirname, 'content/nhci'),
+    chapterCount: 5,
+    examFiles: [
+      { file: 'Mock_Exam.md', id: 'mock_exam_1', title: 'Mock Exam 1 — Practice Examination' },
+      { file: 'Previous_Exam_2025.md', id: 'spu_main_2025', title: 'SPU Main Exam — June 2025' },
+      { file: 'Practice_Exam_3.md', id: 'practice_exam_3', title: 'Practice Exam 3 — Comprehensive Review' }
+    ]
+  }
+};
+
 const OUTPUT_FILE = path.resolve(__dirname, 'src/data/chapters_data.js');
 
 function cleanText(text) {
@@ -224,55 +244,55 @@ function parseMockExam(filePath) {
     }
   }
 
+  // Extract page title dynamically
+  const titleMatch = content.match(/# ([\s\S]+?)(?=\n\s*\*\*|\n\s*##|$)/i);
+  const examTitle = titleMatch ? titleMatch[1].trim() : "Mock Examination";
+
   return {
-    title: "Software Engineering I — Mock Examination",
+    title: examTitle,
     questions
   };
 }
 
 function compile() {
-  const chapters = [];
-  
-  for (let i = 1; i <= 8; i++) {
-    const filename = fs.readdirSync(WORKSPACE_DIR).find(f => f.startsWith(`Chapter_${i}_`));
-    if (filename) {
-      const filePath = path.join(WORKSPACE_DIR, filename);
-      console.log(`Parsing Chapter ${i}: ${filename}`);
-      const chData = parseChapterFile(filePath, i);
-      chapters.push(chData);
-    } else {
-      console.warn(`Warning: Chapter ${i} not found!`);
+  const compiledData = {};
+
+  for (const [subId, config] of Object.entries(SUBJECTS)) {
+    console.log(`\nCompiling subject: ${subId}`);
+    const chapters = [];
+    
+    for (let i = 1; i <= config.chapterCount; i++) {
+      const dirFiles = fs.existsSync(config.dir) ? fs.readdirSync(config.dir) : [];
+      const filename = dirFiles.find(f => f.startsWith(`Chapter_${i}_`));
+      if (filename) {
+        const filePath = path.join(config.dir, filename);
+        console.log(`Parsing ${subId} Chapter ${i}: ${filename}`);
+        const chData = parseChapterFile(filePath, i);
+        chapters.push(chData);
+      } else {
+        console.warn(`Warning: Chapter ${i} not found for ${subId}!`);
+      }
     }
-  }
 
-  // Parse all exam files
-  const allExams = [];
+    const exams = [];
+    for (const examConf of config.examFiles) {
+      const dirFiles = fs.existsSync(config.dir) ? fs.readdirSync(config.dir) : [];
+      const filename = dirFiles.find(f => f.toLowerCase() === examConf.file.toLowerCase());
+      if (filename) {
+        console.log(`Parsing ${subId} Exam: ${filename}`);
+        const examData = parseMockExam(path.join(config.dir, filename));
+        examData.id = examConf.id;
+        examData.title = examConf.title;
+        exams.push(examData);
+      } else {
+        console.warn(`Warning: Exam file ${examConf.file} not found for ${subId}!`);
+      }
+    }
 
-  const mockExamFile = fs.readdirSync(WORKSPACE_DIR).find(f => f.toLowerCase() === 'mock_exam.md');
-  if (mockExamFile) {
-    console.log(`Parsing Exam 1: ${mockExamFile}`);
-    const exam1 = parseMockExam(path.join(WORKSPACE_DIR, mockExamFile));
-    exam1.id = 'mock_exam_1';
-    exam1.title = 'Mock Exam 1 — Practice Examination';
-    allExams.push(exam1);
-  }
-
-  const prevExamFile = fs.readdirSync(WORKSPACE_DIR).find(f => f.toLowerCase() === 'previous_exam_2025.md');
-  if (prevExamFile) {
-    console.log(`Parsing Exam 2: ${prevExamFile}`);
-    const exam2 = parseMockExam(path.join(WORKSPACE_DIR, prevExamFile));
-    exam2.id = 'spu_main_2025';
-    exam2.title = 'SPU Main Exam — June 2025';
-    allExams.push(exam2);
-  }
-
-  const practiceExam3File = fs.readdirSync(WORKSPACE_DIR).find(f => f.toLowerCase() === 'practice_exam_3.md');
-  if (practiceExam3File) {
-    console.log(`Parsing Exam 3: ${practiceExam3File}`);
-    const exam3 = parseMockExam(path.join(WORKSPACE_DIR, practiceExam3File));
-    exam3.id = 'practice_exam_3';
-    exam3.title = 'Practice Exam 3 — Comprehensive Review';
-    allExams.push(exam3);
+    compiledData[subId] = {
+      chapters,
+      exams
+    };
   }
 
   // Ensure output directory exists
@@ -282,15 +302,15 @@ function compile() {
   }
 
   const outputJs = `// Auto-generated data file. Do not edit directly.
-export const chaptersData = ${JSON.stringify(chapters, null, 2)};
+export const subjectsData = ${JSON.stringify(compiledData, null, 2)};
 
-export const mockExamData = ${JSON.stringify(allExams.length > 0 ? allExams[0] : null, null, 2)};
-
-export const allExams = ${JSON.stringify(allExams, null, 2)};
+export const chaptersData = subjectsData.se.chapters;
+export const allExams = subjectsData.se.exams;
+export const mockExamData = allExams.length > 0 ? allExams[0] : null;
 `;
 
   fs.writeFileSync(OUTPUT_FILE, outputJs, 'utf-8');
-  console.log(`Successfully compiled ${allExams.length} exams and ${chapters.length} chapters to ${OUTPUT_FILE}`);
+  console.log(`Successfully compiled both subjects to ${OUTPUT_FILE}`);
 }
 
 compile();

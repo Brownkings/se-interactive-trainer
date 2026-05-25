@@ -1,7 +1,16 @@
-import { chaptersData, mockExamData, allExams } from './src/data/chapters_data.js';
+import { subjectsData, chaptersData as defaultChapters, allExams as defaultExams } from './src/data/chapters_data.js';
 
-// --- APPLICATION STATE & LOCAL STORAGE ---
-const STATE_KEY = 'se_trainer_state_v1';
+// --- APPLICATION SUBJECT & STATE MANAGEMENT ---
+let currentSubject = localStorage.getItem('active_subject') || 'se';
+if (!subjectsData[currentSubject]) {
+  currentSubject = 'se';
+}
+
+let chaptersData = subjectsData[currentSubject]?.chapters || defaultChapters;
+let allExams = subjectsData[currentSubject]?.exams || defaultExams;
+let mockExamData = allExams.length > 0 ? allExams[0] : null;
+
+let STATE_KEY = `${currentSubject}_trainer_state_v1`;
 
 let state = {
   xp: 0,
@@ -25,6 +34,25 @@ let state = {
 
 // Load state from localStorage
 function loadState() {
+  state = {
+    xp: 0,
+    level: 1,
+    streak: 0,
+    lastStudyDate: null,
+    reviewDeck: [],
+    completedSections: {},
+    masteredTerms: {},
+    quizProgress: {},
+    essayProgress: {},
+    mockAnswers: {},
+    mockScores: {},
+    mockCompleted: false,
+    mockExamTimeRemaining: 10800,
+    mockActive: false,
+    unlockedBadges: [],
+    selectedExamId: null,
+    examStates: {}
+  };
   const saved = localStorage.getItem(STATE_KEY);
   if (saved) {
     try {
@@ -38,6 +66,59 @@ function loadState() {
 // Save state to localStorage
 function saveState() {
   localStorage.setItem(STATE_KEY, JSON.stringify(state));
+}
+
+// Update subject-specific titles, logos and headers
+function updateSubjectUI() {
+  const isSE = currentSubject === 'se';
+  document.title = isSE ? "Software Engineering Interactive Trainer" : "Human-Computer Interaction Interactive Trainer";
+  
+  const logoText = document.querySelector('.logo-text');
+  if (logoText) logoText.innerText = isSE ? "SE Trainer" : "HCI Trainer";
+  
+  const logoIcon = document.querySelector('.logo-icon');
+  if (logoIcon) logoIcon.innerText = isSE ? "SE" : "HCI";
+  
+  // Dashboard headers/text
+  const dashboardTitle = document.querySelector('#dashboard-view h1');
+  if (dashboardTitle) dashboardTitle.innerText = isSE ? "Software Engineering I" : "Human-Computer Interaction";
+  
+  // Mock exam headers
+  const mockTitle = document.querySelector('#mock-exam-active-screen h2');
+  if (mockTitle) mockTitle.innerText = isSE ? "Software Engineering I Mock Exam" : "Human-Computer Interaction Mock Exam";
+}
+
+// Switch current active subject
+function switchSubject(subjectId) {
+  if (state.mockActive) {
+    if (!confirm("Your mock exam is running. Switching subjects will reset the mock exam timer. Proceed?")) {
+      document.getElementById('subject-select').value = currentSubject;
+      return;
+    }
+  }
+  
+  // Save current subject state
+  saveState();
+  
+  // Switch
+  currentSubject = subjectId;
+  localStorage.setItem('active_subject', currentSubject);
+  STATE_KEY = `${currentSubject}_trainer_state_v1`;
+  
+  // Load data
+  chaptersData = subjectsData[currentSubject].chapters;
+  allExams = subjectsData[currentSubject].exams;
+  mockExamData = allExams.length > 0 ? allExams[0] : null;
+  
+  // Clear routing flags
+  currentActiveChapter = null;
+  
+  // Load state and update UI
+  loadState();
+  updateSubjectUI();
+  updateUI();
+  renderDashboard();
+  navigateView('dashboard-view');
 }
 
 // Reset state
@@ -70,18 +151,23 @@ function resetProgress() {
 }
 
 // --- GAMIFICATION & XP LOGIC ---
-const RANK_LEVELS = [
-  { maxLevel: 2, rank: 'Novice Developer 💻' },
-  { maxLevel: 5, rank: 'Systems Architect 📐' },
-  { maxLevel: 8, rank: 'Senior Engineer 🚀' },
-  { maxLevel: 999, rank: 'Software Guru 🔮' }
-];
-
 function getRank(level) {
-  for (const lvl of RANK_LEVELS) {
+  const isSE = currentSubject === 'se';
+  const ranks = isSE ? [
+    { maxLevel: 2, rank: 'Novice Developer 💻' },
+    { maxLevel: 5, rank: 'Systems Architect 📐' },
+    { maxLevel: 8, rank: 'Senior Engineer 🚀' },
+    { maxLevel: 999, rank: 'Software Guru 🔮' }
+  ] : [
+    { maxLevel: 2, rank: 'Novice Designer 🎨' },
+    { maxLevel: 5, rank: 'UX Researcher 🔍' },
+    { maxLevel: 8, rank: 'Interaction Specialist 👁️' },
+    { maxLevel: 999, rank: 'HCI Guru 🔮' }
+  ];
+  for (const lvl of ranks) {
     if (level <= lvl.maxLevel) return lvl.rank;
   }
-  return 'Legendary Engineer';
+  return isSE ? 'Software Guru 🔮' : 'HCI Guru 🔮';
 }
 
 function addXP(amount) {
@@ -1406,7 +1492,17 @@ document.getElementById('btn-close-exam-results').addEventListener('click', () =
 
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize subject dropdown selector state
+  const subjSelect = document.getElementById('subject-select');
+  if (subjSelect) {
+    subjSelect.value = currentSubject;
+    subjSelect.addEventListener('change', (e) => {
+      switchSubject(e.target.value);
+    });
+  }
+
   loadState();
+  updateSubjectUI();
   updateUI();
   renderDashboard();
   
