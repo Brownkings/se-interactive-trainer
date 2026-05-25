@@ -1312,9 +1312,25 @@ function renderNavigatorDots() {
     });
   };
   
-  populateSectionDots('A', 'exam-sec-a-dots');
-  populateSectionDots('B', 'exam-sec-b-dots');
-  populateSectionDots('C', 'exam-sec-c-dots');
+  if (currentSubject === 'nhci') {
+    // Show only Section A as the unified questions list
+    document.getElementById('exam-nav-section-a').style.display = 'block';
+    document.querySelector('#exam-nav-section-a .exam-section-label').innerText = 'Exam Questions';
+    document.getElementById('exam-nav-section-b').style.display = 'none';
+    document.getElementById('exam-nav-section-c').style.display = 'none';
+    
+    populateSectionDots('A', 'exam-sec-a-dots');
+  } else {
+    // Show all three sections for SE
+    document.getElementById('exam-nav-section-a').style.display = 'block';
+    document.querySelector('#exam-nav-section-a .exam-section-label').innerText = 'Section A';
+    document.getElementById('exam-nav-section-b').style.display = 'block';
+    document.getElementById('exam-nav-section-c').style.display = 'block';
+    
+    populateSectionDots('A', 'exam-sec-a-dots');
+    populateSectionDots('B', 'exam-sec-b-dots');
+    populateSectionDots('C', 'exam-sec-c-dots');
+  }
 }
 
 function renderExamQuestion() {
@@ -1323,12 +1339,16 @@ function renderExamQuestion() {
   document.getElementById('mock-q-marks').innerText = `${q.marks} Mark${q.marks === 1 ? '' : 's'}`;
   document.getElementById('mock-q-description').innerText = q.description;
   
-  const sectionLabels = {
-    'A': 'Section A: Theory & Core Concepts [40 Marks Total]',
-    'B': 'Section B: UML Modeling & Diagram Design [30 Marks Total]',
-    'C': 'Section C: Case Studies & Scenario Analysis [30 Marks Total]'
-  };
-  document.getElementById('exam-sec-title').innerText = sectionLabels[q.section];
+  if (currentSubject === 'nhci') {
+    document.getElementById('exam-sec-title').innerText = currentExamData ? currentExamData.title : 'Exam Question';
+  } else {
+    const sectionLabels = {
+      'A': 'Section A: Theory & Core Concepts [40 Marks Total]',
+      'B': 'Section B: UML Modeling & Diagram Design [30 Marks Total]',
+      'C': 'Section C: Case Studies & Scenario Analysis [30 Marks Total]'
+    };
+    document.getElementById('exam-sec-title').innerText = sectionLabels[q.section];
+  }
   
   const textarea = document.getElementById('mock-q-answer-input');
   textarea.value = state.mockAnswers[q.num] || '';
@@ -1460,18 +1480,23 @@ function renderMockResults() {
   
   document.getElementById('exam-final-score').innerText = totalScore;
   
+  const totalMarks = examQuestions.reduce((s, q) => s + q.marks, 0);
+  const examTotalMarksEl = document.getElementById('exam-total-marks');
+  if (examTotalMarksEl) examTotalMarksEl.innerText = totalMarks;
+  
+  const pct = totalMarks > 0 ? (totalScore / totalMarks) * 100 : 0;
   const banner = document.getElementById('exam-grade-banner');
-  if (totalScore >= 75) {
-    banner.innerText = "GRADE: A (EXCELLENT) 🏆";
+  if (pct >= 75) {
+    banner.innerText = `GRADE: A (EXCELLENT) 🏆 (${pct.toFixed(1)}%)`;
     banner.style.color = "var(--secondary)";
-  } else if (totalScore >= 60) {
-    banner.innerText = "GRADE: B (GOOD) 👍";
+  } else if (pct >= 60) {
+    banner.innerText = `GRADE: B (GOOD) 👍 (${pct.toFixed(1)}%)`;
     banner.style.color = "var(--primary-hover)";
-  } else if (totalScore >= 50) {
-    banner.innerText = "GRADE: C (PASSED) 🤝";
+  } else if (pct >= 50) {
+    banner.innerText = `GRADE: C (PASSED) 🤝 (${pct.toFixed(1)}%)`;
     banner.style.color = "var(--warning)";
   } else {
-    banner.innerText = "GRADE: F (FAIL - NEED REVIEW) ❌";
+    banner.innerText = `GRADE: F (FAIL - NEED REVIEW) ❌ (${pct.toFixed(1)}%)`;
     banner.style.color = "var(--danger)";
   }
 }

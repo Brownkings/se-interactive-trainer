@@ -193,7 +193,7 @@ function parseChapterFile(filePath, index) {
   };
 }
 
-function parseMockExam(filePath) {
+function parseMockExam(filePath, subId) {
   const content = fs.readFileSync(filePath, 'utf-8');
   
   // Split content into questions and suggested solutions
@@ -218,8 +218,10 @@ function parseMockExam(filePath) {
     
     // Determine section based on question number or context
     let section = 'A';
-    if (num >= 8 && num <= 10) section = 'B';
-    else if (num >= 11) section = 'C';
+    if (subId === 'se') {
+      if (num >= 8 && num <= 10) section = 'B';
+      else if (num >= 11) section = 'C';
+    }
 
     questions.push({
       num,
@@ -280,7 +282,7 @@ function compile() {
       const filename = dirFiles.find(f => f.toLowerCase() === examConf.file.toLowerCase());
       if (filename) {
         console.log(`Parsing ${subId} Exam: ${filename}`);
-        const examData = parseMockExam(path.join(config.dir, filename));
+        const examData = parseMockExam(path.join(config.dir, filename), subId);
         examData.id = examConf.id;
         examData.title = examConf.title;
         exams.push(examData);

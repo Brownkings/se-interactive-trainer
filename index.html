@@ -332,19 +332,25 @@
               <div class="glass-panel exam-nav-panel">
                 <h3 style="font-size: 16px; margin-bottom: 12px;">Exam Navigator</h3>
                 
-                <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px;">Section A</div>
-                <div class="exam-q-grid" id="exam-sec-a-dots">
-                  <!-- Dots populated by js -->
+                <div id="exam-nav-section-a">
+                  <div class="exam-section-label" style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px;">Section A</div>
+                  <div class="exam-q-grid" id="exam-sec-a-dots">
+                    <!-- Dots populated by js -->
+                  </div>
                 </div>
 
-                <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-top: 16px; margin-bottom: 8px;">Section B</div>
-                <div class="exam-q-grid" id="exam-sec-b-dots">
-                  <!-- Dots populated by js -->
+                <div id="exam-nav-section-b">
+                  <div class="exam-section-label" style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-top: 16px; margin-bottom: 8px;">Section B</div>
+                  <div class="exam-q-grid" id="exam-sec-b-dots">
+                    <!-- Dots populated by js -->
+                  </div>
                 </div>
 
-                <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-top: 16px; margin-bottom: 8px;">Section C</div>
-                <div class="exam-q-grid" id="exam-sec-c-dots">
-                  <!-- Dots populated by js -->
+                <div id="exam-nav-section-c">
+                  <div class="exam-section-label" style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-top: 16px; margin-bottom: 8px;">Section C</div>
+                  <div class="exam-q-grid" id="exam-sec-c-dots">
+                    <!-- Dots populated by js -->
+                  </div>
                 </div>
 
                 <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
@@ -363,7 +369,7 @@
             <p style="color: var(--text-secondary); margin-top: 8px;">Self-evaluative grading summary based on suggested answer comparison.</p>
             
             <div class="score-display">
-              <span id="exam-final-score">0</span> / 100
+              <span id="exam-final-score">0</span> / <span id="exam-total-marks">100</span>
             </div>
             
             <div id="exam-grade-banner" style="font-family: 'Outfit'; font-weight: 800; font-size: 24px; color: var(--secondary); margin-bottom: 32px;">
