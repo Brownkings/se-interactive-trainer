@@ -205,44 +205,91 @@ function parseMockExam(filePath, subId) {
     solutionsText = content.substring(solutionsStart);
   }
 
+  // Parse solutions first into a map
+  const solutionsMap = {};
+  const solutionRegex = /### Question (\d+):\s*([\s\S]+?)(?=\n\s*###|\n\s*##|$)/gi;
+  let sMatch;
+  while ((sMatch = solutionRegex.exec(solutionsText)) !== null) {
+    const mainNum = parseInt(sMatch[1]);
+    const solContent = sMatch[2];
+    
+    // Check for sub-solutions like "* **1.1 Usable meaning**: ..."
+    const subSolRegex = /(?:^|\n)(\s*\*\s*\*{2}(\d+\.\d+)[\s\S]+?)(?=\n\s*\*\s*\*{2}\d+\.\d+|\n\s*###|\n\s*##|$)/gi;
+    let ssMatch;
+    let foundSub = false;
+    while ((ssMatch = subSolRegex.exec(solContent)) !== null) {
+      const subNum = ssMatch[2];
+      const subText = cleanText(ssMatch[1]);
+      solutionsMap[subNum] = subText;
+      foundSub = true;
+    }
+    
+    if (!foundSub) {
+      solutionsMap[String(mainNum)] = cleanText(solContent);
+    }
+  }
+
   // Parse questions by "### Question X: Title [Y Marks]"
   const questionRegex = /### Question (\d+):\s*(.+?)\s*\[(\d+)\s*Marks\]([\s\S]+?)(?=\n\s*###|\n\s*##|$)/gi;
   const questions = [];
   
   let qMatch;
   while ((qMatch = questionRegex.exec(examText)) !== null) {
-    const num = parseInt(qMatch[1]);
-    const title = cleanText(qMatch[2]);
-    const marks = parseInt(qMatch[3]);
-    const description = cleanText(qMatch[4]);
+    const mainNum = parseInt(qMatch[1]);
+    const mainTitle = cleanText(qMatch[2]);
+    const mainMarks = parseInt(qMatch[3]);
+    const mainDescription = qMatch[4];
+    
+    // Check if there are subquestions like "1.1 Explain... (4 Marks)"
+    const subQRegex = /(?:^|\n)(\d+\.\d+)\s+([\s\S]+?)\s*[\(\[](\d+)\s*Mark[s]?[\)\]]\s*(?=\n\s*\d+\.\d+|\n\s*###|\n\s*##|$)/gi;
+    let sqMatch;
+    const subQuestions = [];
+    while ((sqMatch = subQRegex.exec(mainDescription)) !== null) {
+      const subNum = sqMatch[1];
+      const subDesc = cleanText(sqMatch[2]);
+      const subMarks = parseInt(sqMatch[3]);
+      subQuestions.push({
+        num: subNum,
+        title: `${mainTitle} - Part ${subNum}`,
+        marks: subMarks,
+        description: subDesc,
+        index: sqMatch.index
+      });
+    }
     
     // Determine section based on question number or context
     let section = 'A';
     if (subId === 'se') {
-      if (num >= 8 && num <= 10) section = 'B';
-      else if (num >= 11) section = 'C';
+      if (mainNum >= 8 && mainNum <= 10) section = 'B';
+      else if (mainNum >= 11) section = 'C';
     }
 
-    questions.push({
-      num,
-      title,
-      marks,
-      description,
-      section,
-      solution: ''
-    });
-  }
-
-  // Parse solutions
-  const solutionRegex = /### Question (\d+):\s*([\s\S]+?)(?=\n\s*###|\n\s*##|$)/gi;
-  let sMatch;
-  while ((sMatch = solutionRegex.exec(solutionsText)) !== null) {
-    const num = parseInt(sMatch[1]);
-    const solContent = cleanText(sMatch[2]);
-    
-    const question = questions.find(q => q.num === num);
-    if (question) {
-      question.solution = solContent;
+    if (subQuestions.length > 0) {
+      // Find the scenario text (everything before the first subquestion)
+      const firstSubQIndex = subQuestions[0].index;
+      const scenarioText = cleanText(mainDescription.substring(0, firstSubQIndex));
+      
+      subQuestions.forEach(sq => {
+        questions.push({
+          num: sq.num,
+          title: sq.title,
+          marks: sq.marks,
+          description: sq.description,
+          scenario: scenarioText,
+          section,
+          solution: solutionsMap[sq.num] || ''
+        });
+      });
+    } else {
+      questions.push({
+        num: String(mainNum),
+        title: mainTitle,
+        marks: mainMarks,
+        description: cleanText(mainDescription),
+        scenario: '',
+        section,
+        solution: solutionsMap[String(mainNum)] || ''
+      });
     }
   }
 

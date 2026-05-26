@@ -313,11 +313,24 @@
                   <span class="quiz-q-meta" id="mock-q-marks" style="margin-bottom: 0;">5 Marks</span>
                 </div>
                 
-                <p id="mock-q-description" style="white-space: pre-line; line-height: 1.6; margin-bottom: 24px; font-size: 15px; color: var(--text-primary);"></p>
-                
-                <div class="essay-input-container">
-                  <label for="mock-q-answer-input" style="font-size: 14px; color: var(--text-secondary);">Your Response / Solution Notes:</label>
-                  <textarea id="mock-q-answer-input" class="essay-textarea" placeholder="Type your full answer here. Use bullet points and paragraphs as needed..."></textarea>
+                <div class="exam-question-layout" style="display: flex; gap: 24px; min-height: 400px;">
+                  <!-- Left: Scenario pane -->
+                  <div id="exam-scenario-pane" style="flex: 1; display: none; flex-direction: column; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05); padding: 18px; border-radius: 12px; max-height: 500px; overflow-y: auto;">
+                    <div style="font-family: 'Outfit'; font-weight: 700; color: var(--secondary); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">Case Study / Scenario</div>
+                    <div id="exam-scenario-content" style="white-space: pre-wrap; font-size: 14px; line-height: 1.6; color: var(--text-secondary);"></div>
+                  </div>
+                  
+                  <!-- Right: Question and Answer pane -->
+                  <div id="exam-question-pane" style="flex: 1.2; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                      <p id="mock-q-description" style="white-space: pre-line; line-height: 1.6; margin-bottom: 24px; font-size: 15px; color: var(--text-primary);"></p>
+                    </div>
+                    
+                    <div class="essay-input-container" style="margin-top: auto;">
+                      <label for="mock-q-answer-input" style="font-size: 14px; color: var(--text-secondary);">Your Response / Solution Notes:</label>
+                      <textarea id="mock-q-answer-input" class="essay-textarea" placeholder="Type your full answer here. Use bullet points and paragraphs as needed..." style="min-height: 200px;"></textarea>
+                    </div>
+                  </div>
                 </div>
               </div>
               

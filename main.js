@@ -1300,6 +1300,9 @@ function renderNavigatorDots() {
         if (state.mockAnswers[q.num] && state.mockAnswers[q.num].trim().length > 0) dot.classList.add('answered');
         
         dot.innerText = q.num;
+        if (String(q.num).length > 2) {
+          dot.style.fontSize = '11px';
+        }
         dot.addEventListener('click', () => {
           // Save current answer draft first
           saveExamDraftAnswer();
@@ -1337,6 +1340,17 @@ function renderExamQuestion() {
   const q = examQuestions[examActiveIdx];
   document.getElementById('mock-q-title').innerText = `Question ${q.num}: ${q.title}`;
   document.getElementById('mock-q-marks').innerText = `${q.marks} Mark${q.marks === 1 ? '' : 's'}`;
+  // Dynamic scenario pane rendering
+  const scenarioPane = document.getElementById('exam-scenario-pane');
+  const scenarioContent = document.getElementById('exam-scenario-content');
+  if (q.scenario && q.scenario.trim().length > 0) {
+    scenarioPane.style.display = 'flex';
+    scenarioContent.innerText = q.scenario;
+  } else {
+    scenarioPane.style.display = 'none';
+    scenarioContent.innerText = '';
+  }
+  
   document.getElementById('mock-q-description').innerText = q.description;
   
   if (currentSubject === 'nhci') {
