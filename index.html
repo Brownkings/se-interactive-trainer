@@ -331,11 +331,21 @@
                       <textarea id="mock-q-answer-input" class="essay-textarea" placeholder="Type your full answer here. Use bullet points and paragraphs as needed..." style="min-height: 200px;"></textarea>
                     </div>
                   </div>
+
+                  <!-- Right-most: Model Solution pane (toggleable, only on big screens) -->
+                  <div id="exam-solution-pane" style="flex: 1; flex-direction: column; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.15); padding: 18px; border-radius: 12px; max-height: 500px; overflow-y: auto;">
+                    <div style="font-family: 'Outfit'; font-weight: 700; color: var(--secondary); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; border-bottom: 1px solid rgba(16, 185, 129, 0.2); padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                      <span>Model Solution</span>
+                      <button id="btn-close-solution" style="background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 14px; padding: 4px;">✕</button>
+                    </div>
+                    <div id="exam-solution-content" style="white-space: pre-wrap; font-size: 14px; line-height: 1.6; color: var(--text-primary);"></div>
+                  </div>
                 </div>
               </div>
               
-              <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px;">
                 <button class="btn btn-secondary" id="btn-mock-prev">Previous Question</button>
+                <button class="btn btn-secondary" id="btn-reveal-answer">Reveal Answer</button>
                 <button class="btn btn-primary" id="btn-mock-next">Next Question</button>
               </div>
             </div>

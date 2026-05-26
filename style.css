@@ -1447,3 +1447,33 @@ ul.learn-sublist > li::before {
   font-size: 14px;
   color: var(--text-primary);
 }
+
+/* Real-time Answer Reveal (Only visible on big screens) */
+#btn-reveal-answer {
+  display: none !important;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--secondary);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  align-items: center;
+  gap: 8px;
+}
+
+#btn-reveal-answer:hover {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: var(--secondary);
+  color: var(--text-primary);
+}
+
+#exam-solution-pane {
+  display: none !important;
+}
+
+@media (min-width: 1200px) {
+  #btn-reveal-answer {
+    display: inline-flex !important;
+  }
+  #exam-solution-pane.active {
+    display: flex !important;
+    animation: slideDown 0.3s ease;
+  }
+}

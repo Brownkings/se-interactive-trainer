@@ -1246,6 +1246,9 @@ function initActiveMockExam() {
   examQuestions = currentExamData ? currentExamData.questions || [] : [];
   examActiveIdx = 0;
   
+  const solPane = document.getElementById('exam-solution-pane');
+  if (solPane) solPane.classList.remove('active');
+  
   // Render navigator dots
   renderNavigatorDots();
   
@@ -1366,6 +1369,12 @@ function renderExamQuestion() {
   
   const textarea = document.getElementById('mock-q-answer-input');
   textarea.value = state.mockAnswers[q.num] || '';
+  
+  // Dynamic solution pane rendering (if active)
+  const solPane = document.getElementById('exam-solution-pane');
+  if (solPane && solPane.classList.contains('active')) {
+    document.getElementById('exam-solution-content').innerText = q.solution || 'No solution key provided for this question.';
+  }
 }
 
 function saveExamDraftAnswer() {
@@ -1390,6 +1399,24 @@ document.getElementById('btn-mock-next').addEventListener('click', () => {
     examActiveIdx++;
     renderExamQuestion();
     renderNavigatorDots();
+  }
+});
+
+document.getElementById('btn-reveal-answer').addEventListener('click', () => {
+  const solPane = document.getElementById('exam-solution-pane');
+  if (solPane) {
+    solPane.classList.toggle('active');
+    if (solPane.classList.contains('active')) {
+      const q = examQuestions[examActiveIdx];
+      document.getElementById('exam-solution-content').innerText = q.solution || 'No solution key provided for this question.';
+    }
+  }
+});
+
+document.getElementById('btn-close-solution').addEventListener('click', () => {
+  const solPane = document.getElementById('exam-solution-pane');
+  if (solPane) {
+    solPane.classList.remove('active');
   }
 });
 
