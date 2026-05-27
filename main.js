@@ -1680,4 +1680,20 @@ document.addEventListener('DOMContentLoaded', () => {
     "Ethics is a major section of Chapter 1. Remember the 8 principles of the ACM/IEEE code."
   ];
   document.getElementById('motivational-quote').innerText = `"${quotes[Math.floor(Math.random() * quotes.length)]}"`;
+
+  // Scope Quick Links Event Listeners
+  const scopeReq = document.getElementById('btn-scope-req');
+  if (scopeReq) scopeReq.addEventListener('click', () => openChapterDetail(4, 'learn'));
+  
+  const scopeModel = document.getElementById('btn-scope-model');
+  if (scopeModel) scopeModel.addEventListener('click', () => openChapterDetail(5, 'learn'));
+  
+  const scopeArch = document.getElementById('btn-scope-arch');
+  if (scopeArch) scopeArch.addEventListener('click', () => openChapterDetail(6, 'learn'));
+  
+  const scopeAgile = document.getElementById('btn-scope-agile');
+  if (scopeAgile) scopeAgile.addEventListener('click', () => openChapterDetail(3, 'learn'));
+  
+  const scopeTest = document.getElementById('btn-scope-test');
+  if (scopeTest) scopeTest.addEventListener('click', () => openChapterDetail(8, 'learn'));
 });
