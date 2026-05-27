@@ -285,41 +285,43 @@
             <!-- Segments -->
             <div class="supercheat-segment">
               <h4>1. Requirements (Ch 4)</h4>
-              <p><strong>Functional:</strong> Services system provides, reactions to inputs, specific behaviors.<br>
-              <strong>Non-functional:</strong> Constraints on services (e.g., timing, dev process, standards, storage). Often applies to system as a whole.<br>
-              <strong>RE Process:</strong> Elicitation &rarr; Specification &rarr; Validation &rarr; Management.</p>
+              <p><strong>Functional:</strong> System services, reactions to inputs. Can be user-level or detailed system-level.<br>
+              <strong>Non-functional:</strong> Constraints (timing, security, reliability, usability, standards). Often apply globally. Failures here can render the whole system useless.<br>
+              <strong>RE Process:</strong> Elicitation &rarr; Specification &rarr; Validation (checking validity, consistency, completeness) &rarr; Management (handling changes). The <em>Software Requirements Document</em> is the official statement.</p>
             </div>
             <div class="supercheat-segment">
               <h4>2. System Models (Ch 5)</h4>
-              <p><strong>Context:</strong> External boundaries/environment. <strong>Use Case:</strong> Actor-system interactions. <br>
-              <strong>Sequence:</strong> Interactions b/w objects over time. <br>
-              <strong>Class:</strong> Object structures/relationships (inheritance, association). <br>
-              <strong>State:</strong> System responses to events. <strong>Activity:</strong> Process workflow.</p>
+              <p><strong>UML:</strong> Standard modeling language. <strong>Context:</strong> External environment & boundaries.<br>
+              <strong>Use Case (Interaction):</strong> Actor-system interactions for a specific task. <strong>Sequence (Interaction):</strong> Object lifelines & messages over time.<br>
+              <strong>Class (Structural):</strong> Object classes, attributes, operations, and relationships (association, generalization).<br>
+              <strong>State (Behavioral):</strong> Nodes are states, arrows are event transitions. <strong>Activity:</strong> Process workflow.</p>
             </div>
             <div class="supercheat-segment">
               <h4>3. Architectures (Ch 6)</h4>
-              <p><strong>Patterns:</strong> <em>MVC</em> (separates data/view/control), <em>Layered</em> (incremental dev/security), <em>Repository</em> (central data sharing), <em>Client-Server</em> (distributed), <em>Pipe/Filter</em> (data transformations).<br>
-              <strong>4+1 Views:</strong> Logical (objects), Process (run-time), Dev (components), Physical (hardware), plus Use Cases/Scenarios.</p>
+              <p><strong>Decisions impact:</strong> Performance (localize ops), Security (layered), Availability (redundant), Maintainability (fine-grain).<br>
+              <strong>Patterns:</strong> <em>MVC</em> (separates data/view/control, good for multiple views), <em>Layered</em> (incremental dev, core protection), <em>Repository</em> (central data sharing, subsystems independent), <em>Client-Server</em> (distributed services), <em>Pipe/Filter</em> (data transformations in sequence).<br>
+              <strong>4+1 Views:</strong> Logical, Process, Development, Physical + Scenarios.</p>
             </div>
             <div class="supercheat-segment">
               <h4>4. Agile Methods (Ch 3)</h4>
               <p><strong>Manifesto:</strong> Indiv/interactions over process; working software over docs; customer collab over contracts; responding to change.<br>
-              <strong>Scrum:</strong> Sprints, Scrum Master (facilitates), Product Owner (backlog).<br>
-              <strong>XP:</strong> Pair programming, continuous integration, test-first dev.</p>
+              <strong>Scrum:</strong> Sprints (2-4 weeks), Scrum Master (protects team/facilitates), Product Owner (backlog priority), Daily Standup, Retrospective.<br>
+              <strong>XP:</strong> Pair programming, continuous integration, test-first dev, refactoring.<br>
+              <strong>Limits:</strong> Struggles with large distributed teams or safety-critical systems.</p>
             </div>
             <div class="supercheat-segment">
               <h4>5. Testing Strategies (Ch 8)</h4>
-              <p><strong>V&V:</strong> Validation (right product?) vs Verification (product right?).<br>
-              <strong>Stages:</strong> Unit (individual), Component (composite), System (integration).<br>
-              <strong>TDD:</strong> Test &rarr; Fail &rarr; Code &rarr; Pass &rarr; Refactor. (Improves coverage & debugging).<br>
-              <strong>Release Testing:</strong> Black-box testing for the final user.</p>
+              <p><strong>V&V:</strong> Validation (right product for user?) vs Verification (built to spec?).<br>
+              <strong>Stages:</strong> Unit (individual objects/methods), Component (composite objects/interfaces), System (integrating all components).<br>
+              <strong>TDD:</strong> Test &rarr; Fail &rarr; Code &rarr; Pass &rarr; Refactor. <em>Automated test parts:</em> Setup, Call, Assertion.<br>
+              <strong>Techniques:</strong> Partition testing (identify equivalence classes), Black-box testing (for Release/User testing).</p>
             </div>
             <div class="supercheat-segment">
               <h4>6. Interface Errors (Ch 8)</h4>
-              <p><strong>Types:</strong> Parameter, Shared memory, Procedural, Message passing.<br>
-              <strong>Misuse:</strong> Calling with wrong parameter order or types.<br>
+              <p><strong>Interface Types:</strong> Parameter (data passed), Shared memory, Procedural (encapsulated methods), Message passing.<br>
+              <strong>Misuse:</strong> Calling with wrong parameter order or types (common in C/weakly typed languages).<br>
               <strong>Misunderstanding:</strong> Wrong assumptions about callee's preconditions/behavior.<br>
-              <strong>Timing:</strong> Out-of-sync data access b/w producer and consumer.</p>
+              <strong>Timing:</strong> Out-of-sync data access b/w producer/consumer (common in real-time systems). <em>Fix:</em> Use strong typing & message passing.</p>
             </div>
           </div>
         </div>
