@@ -53,7 +53,7 @@ Detects faults due to interface errors or invalid assumptions about interfaces.
 ### 7. Test-Driven Development (TDD)
 An incremental development approach where you write tests *before* writing the code.
 * **TDD Process**:
-  $$\text{Identify required increment} \rightarrow \text{Write automated test} \rightarrow \text{Run test (fails)} \rightarrow \text{Implement code} \rightarrow \text{Run test (passes)} \rightarrow \text{Refactor} \rightarrow \text{Repeat}$$
+  Identify required increment → Write automated test → Run test (fails) → Implement code → Run test (passes) → Refactor → Repeat
 * **Benefits**:
   * *Code Coverage*: Every line of code written has an associated test.
   * *Regression Testing*: An automated test suite is built incrementally.
@@ -75,7 +75,7 @@ Essential because the user's real working environment (with interruptions, uniqu
 * **Alpha Testing**: Users work with developers to test the software at the developer's site.
 * **Beta Testing**: A pre-release version of the software is given to users to test in their own environments.
 * **Acceptance Testing**: Customers test the system in their own environment to decide if it is ready to be accepted and deployed.
-  * *Acceptance Stages*: Define criteria $\rightarrow$ Plan tests $\rightarrow$ Derive tests $\rightarrow$ Run tests $\rightarrow$ Negotiate results $\rightarrow$ Accept/Reject.
+  * *Acceptance Stages*: Define criteria → Plan tests → Derive tests → Run tests → Negotiate results → Accept/Reject.
   * *Agile Acceptance*: Customers are embedded in the team and continuously evaluate increments, meaning there is no separate acceptance phase. (Drawback: The embedded customer might not represent all stakeholders).
 
 ---

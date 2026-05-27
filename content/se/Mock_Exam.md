@@ -267,18 +267,18 @@ Read the case study description and answer the questions.
 * **9.1 Lifelines**:
   * `User` (Actor), `Mobile App (UI)`, `Banking Server`, `Authentication Service`, `Account Database`, `Transaction Database`, `SMS Gateway`.
 * **9.2 Sequence of Messages**:
-  1. `User` initiates transfer $\rightarrow$ `Mobile App (UI)` (Call)
-  2. `Mobile App (UI)` sends transfer request $\rightarrow$ `Banking Server` (Call)
-  3. `Banking Server` requests token check $\rightarrow$ `Authentication Service` (Call)
-  4. `Authentication Service` returns token valid $\rightarrow$ `Banking Server` (Return)
-  5. `Banking Server` queries balance $\rightarrow$ `Account Database` (Call)
-  6. `Account Database` returns sufficient balance $\rightarrow$ `Banking Server` (Return)
+  1. `User` initiates transfer → `Mobile App (UI)` (Call)
+  2. `Mobile App (UI)` sends transfer request → `Banking Server` (Call)
+  3. `Banking Server` requests token check → `Authentication Service` (Call)
+  4. `Authentication Service` returns token valid → `Banking Server` (Return)
+  5. `Banking Server` queries balance → `Account Database` (Call)
+  6. `Account Database` returns sufficient balance → `Banking Server` (Return)
   7. `Banking Server` processes transaction internally (Self-Call)
-  8. `Banking Server` saves record $\rightarrow$ `Transaction Database` (Call)
-  9. `Transaction Database` returns success $\rightarrow$ `Banking Server` (Return)
-  10. `Banking Server` requests SMS dispatch $\rightarrow$ `SMS Gateway` (Call)
-  11. `Banking Server` returns success status $\rightarrow$ `Mobile App (UI)` (Return)
-  12. `Mobile App (UI)` displays transfer confirmation $\rightarrow$ `User` (Return)
+  8. `Banking Server` saves record → `Transaction Database` (Call)
+  9. `Transaction Database` returns success → `Banking Server` (Return)
+  10. `Banking Server` requests SMS dispatch → `SMS Gateway` (Call)
+  11. `Banking Server` returns success status → `Mobile App (UI)` (Return)
+  12. `Mobile App (UI)` displays transfer confirmation → `User` (Return)
 * **9.3 Combined Fragments**:
   * An outer `alt` combined fragment with two branches:
     * *Branch 1 (Session Valid)*: Contains the nested balance check logic.

@@ -61,7 +61,7 @@
 
 ### 8. Requirements Elicitation and Analysis
 The process of discovering requirements by working with stakeholders.
-* **Elicitation Stages**: Discovery $\rightarrow$ Classification and Organization $\rightarrow$ Prioritization and Negotiation $\rightarrow$ Specification.
+* **Elicitation Stages**: Discovery → Classification and Organization → Prioritization and Negotiation → Specification.
 * **Stakeholder**: Any person or organization affected by the system (e.g., patients, doctors, nurses, receptionists, IT staff, ethics managers).
 * **Elicitation Techniques**:
   1. **Interviews**: Closed (pre-set questions) or Open (exploring issues). Good for overall understanding, but bad for uncovering domain requirements.
@@ -121,10 +121,10 @@ The process of managing and controlling changing requirements during development
    d) Rapid prototyping
 
 4. What is the correct order of the stages in the Requirements Change Management process?
-   a) Change implementation $\rightarrow$ Change analysis and costing $\rightarrow$ Problem analysis and change specification.
-   b) Problem analysis and change specification $\rightarrow$ Change analysis and costing $\rightarrow$ Change implementation.
-   c) Change costing $\rightarrow$ Change implementation $\rightarrow$ Verification.
-   d) Requirements elicitation $\rightarrow$ Validation $\rightarrow$ Change coding.
+   a) Change implementation → Change analysis and costing → Problem analysis and change specification.
+   b) Problem analysis and change specification → Change analysis and costing → Change implementation.
+   c) Change costing → Change implementation → Verification.
+   d) Requirements elicitation → Validation → Change coding.
 
 ### Section B: Short-Answer & Scenario Questions
 5. What is the difference between a user requirement and a system requirement?
@@ -139,7 +139,7 @@ The process of managing and controlling changing requirements during development
 1. **b) Product non-functional requirement**. It constrains a product's runtime performance (response time).
 2. **b) It is expressive, intuitive, and can be understood by non-technical customers and users**. Natural language provides a universal communication channel between clients and developers.
 3. **c) Ethnography**. Ethnography relies on direct observation of work practices, making it ideal for cooperative work analysis.
-4. **b) Problem analysis and change specification $\rightarrow$ Change analysis and costing $\rightarrow$ Change implementation**. This is the standard structured process for control of changes.
+4. **b) Problem analysis and change specification → Change analysis and costing → Change implementation**. This is the standard structured process for control of changes.
 
 ### Section B Solutions
 5. **User Requirements** are high-level statements in natural language and diagrams of what services the system should provide and its constraints. They are written for customers. **System Requirements** are detailed descriptions of system functions, services, and operational constraints, serving as a contract-level technical document for developers.

@@ -1477,3 +1477,154 @@ ul.learn-sublist > li::before {
     animation: slideDown 0.3s ease;
   }
 }
+
+/* --- Flowchart / Process Diagram Styles --- */
+.flowchart-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary-hover);
+  margin-top: 24px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.flowchart-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 28px 0;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+}
+
+.flowchart-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.flowchart-step:hover {
+  transform: translateY(-2px);
+  border-color: rgba(var(--primary-rgb), 0.4);
+  background: rgba(var(--primary-rgb), 0.05);
+  box-shadow: 0 6px 12px rgba(var(--primary-rgb), 0.1);
+}
+
+.flowchart-step-num {
+  width: 22px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.flowchart-step-text {
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+.flowchart-step-text strong {
+  color: var(--text-primary) !important;
+}
+
+/* Color coding specific phases */
+.flowchart-step.step-danger {
+  background: rgba(239, 68, 68, 0.06);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+.flowchart-step.step-danger .flowchart-step-num {
+  background: var(--danger);
+  color: white;
+}
+.flowchart-step.step-danger:hover {
+  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.flowchart-step.step-success {
+  background: rgba(16, 185, 129, 0.06);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+.flowchart-step.step-success .flowchart-step-num {
+  background: var(--secondary);
+  color: white;
+}
+.flowchart-step.step-success:hover {
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.flowchart-step.step-warning {
+  background: rgba(245, 158, 11, 0.06);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+.flowchart-step.step-warning .flowchart-step-num {
+  background: #f59e0b;
+  color: white;
+}
+.flowchart-step.step-warning:hover {
+  border-color: rgba(245, 158, 11, 0.5);
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.flowchart-step.step-info {
+  background: rgba(59, 130, 246, 0.06);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+.flowchart-step.step-info .flowchart-step-num {
+  background: #3b82f6;
+  color: white;
+}
+.flowchart-step.step-info:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.flowchart-step.step-primary {
+  background: rgba(139, 92, 246, 0.06);
+  border-color: rgba(139, 92, 246, 0.2);
+}
+.flowchart-step.step-primary .flowchart-step-num {
+  background: var(--primary);
+  color: white;
+}
+.flowchart-step.step-primary:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.flowchart-arrow {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  opacity: 0.6;
+  animation: pulseArrow 3s infinite ease-in-out;
+}
+
+@keyframes pulseArrow {
+  0%, 100% { opacity: 0.4; transform: translateX(0); }
+  50% { opacity: 0.8; transform: translateX(3px); }
+}
+
+.flowchart-cyclic {
+  border-color: rgba(16, 185, 129, 0.15);
+  background: rgba(16, 185, 129, 0.01);
+}

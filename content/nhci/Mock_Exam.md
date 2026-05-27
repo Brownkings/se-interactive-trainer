@@ -108,13 +108,13 @@ Suppose the development team decides to implement the iTBS web application using
   * **Central Process**: Process 0 (iTBS System). (1)
   * **External Entities**: STUDENT, TUTOR, HOD. (3)
   * **Student Data Flows**:
-    * *Logon details / Menu options / TutorialSpecs / ClaimForm* $\rightarrow$ iTBS (Input flows). (1.5)
+    * *Logon details / Menu options / TutorialSpecs / ClaimForm* → iTBS (Input flows). (1.5)
     * *ResponseSMS* $\leftarrow$ iTBS (Output flow). (0.5)
   * **Tutor Data Flows**:
     * *TutorialRequestSMS / Payment* $\leftarrow$ iTBS (Output flows). (1)
-    * *ResponseSMS / ClaimForm* $\rightarrow$ iTBS (Input flows). (1)
+    * *ResponseSMS / ClaimForm* → iTBS (Input flows). (1)
   * **HOD Data Flows**:
-    * *ReportRequest* $\rightarrow$ iTBS (Input flow). (0.5)
+    * *ReportRequest* → iTBS (Input flow). (0.5)
     * *Report* $\leftarrow$ iTBS (Output flow). (0.5)
 
 ### Question 6: Key Focuses of Evaluation
@@ -136,4 +136,4 @@ Suppose the development team decides to implement the iTBS web application using
 
 ### Question 9: Django Implementation & Usability Test Case
 * **9.1 Django prototype**: A Django prototype provides high-fidelity interactivity, allowing users to experience actual system response times, navigation flows, and database interactions, which is more effective for testing usability goals like efficiency and safety than static storyboards. (2 Marks)
-* **9.2 Usability test case**: A usability test case for login would specify: (1) Enter invalid credentials $\rightarrow$ expect helpful error message (good feedback). (2) Enter valid credentials $\rightarrow$ expect redirection to dashboard within 2 seconds (efficiency). (3) Help text is visible for password recovery (safety). (3 Marks)
+* **9.2 Usability test case**: A usability test case for login would specify: (1) Enter invalid credentials → expect helpful error message (good feedback). (2) Enter valid credentials → expect redirection to dashboard within 2 seconds (efficiency). (3) Help text is visible for password recovery (safety). (3 Marks)

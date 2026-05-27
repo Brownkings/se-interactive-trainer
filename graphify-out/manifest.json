@@ -1,0 +1,142 @@
+{
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/package.json": {
+    "mtime": 1779523754.0343292,
+    "ast_hash": "cdedf49f442b80d9d5791f2ac15e9127",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/main.js": {
+    "mtime": 1779754577.9564927,
+    "ast_hash": "d2ad1853235a723af354a7f50c7934ca",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/compile_chapters.js": {
+    "mtime": 1779754123.414927,
+    "ast_hash": "d7312d0893a40b16dee29db46c95a770",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/counter.js": {
+    "mtime": 1779479593.2379282,
+    "ast_hash": "2ac86fab0c68ff8890db658663b5b7f5",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/src/data/chapters_data.js": {
+    "mtime": 1779754584.662048,
+    "ast_hash": "b04e8f7949f0c6b919f5e96c758270d8",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/src/tests/parser.test.js": {
+    "mtime": 1779479683.3504906,
+    "ast_hash": "9eaef1efb763da9fed9a411614f8790b",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/index.html": {
+    "mtime": 1779754548.7005212,
+    "ast_hash": "c79109823c683814c2e4a58f4c938026",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/se/Chapter_7_Design_and_Implementation.md": {
+    "mtime": 1779523738.4974246,
+    "ast_hash": "192db5600c73cc6f7c2e634ce06b3efe",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/se/Chapter_5_System_Modeling.md": {
+    "mtime": 1779523738.4937332,
+    "ast_hash": "4ad256afa06be0609aaa946a1ac334a0",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/se/Chapter_8_Software_Testing.md": {
+    "mtime": 1779523738.4986372,
+    "ast_hash": "5c44ba66a7f5c9aad7974d8e38017f21",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/se/Chapter_4_Requirements_Engineering.md": {
+    "mtime": 1779523738.4927332,
+    "ast_hash": "67ba2acfa6a767ae0002d1bedc7bd335",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/se/Chapter_3_Agile_Software_Development.md": {
+    "mtime": 1779523738.4917333,
+    "ast_hash": "dec4abb9b190ac8f382dbab621dacf4e",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/se/Practice_Exam_3.md": {
+    "mtime": 1779528317.8986607,
+    "ast_hash": "cc52828f1f973b906cfc90bb84160c6e",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/se/Previous_Exam_2025.md": {
+    "mtime": 1779528183.4615285,
+    "ast_hash": "25c31802bfbf225f007f03efda934a25",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/se/Chapter_6_Architectural_Design.md": {
+    "mtime": 1779523738.4962509,
+    "ast_hash": "a5366f58c0968b1a9dfe55ea93251e9c",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/se/Chapter_1_Introduction_to_Software_Engineering.md": {
+    "mtime": 1779523738.4887333,
+    "ast_hash": "3a3b34e736c170036d99756700e2a314",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/se/Mock_Exam.md": {
+    "mtime": 1779523738.5137327,
+    "ast_hash": "430979342bda9c58b6e415bafd604b39",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/se/Chapter_2_Software_Processes.md": {
+    "mtime": 1779523738.4913752,
+    "ast_hash": "c2b031017866e1b6678e10bfd93cba94",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/nhci/Chapter_2_User_Centered_Approach.md": {
+    "mtime": 1779689227.6528108,
+    "ast_hash": "443428c0ad95723a5cdbdeabd0b59454",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/nhci/Chapter_4_Cognitive_Aspects.md": {
+    "mtime": 1779689227.6529286,
+    "ast_hash": "a7a554047ea6c7b215f6d8d60901cf2c",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/nhci/Practice_Exam_3.md": {
+    "mtime": 1779753171.7632313,
+    "ast_hash": "01f4805df88adc91006276ffa89eb766",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/nhci/Previous_Exam_2025.md": {
+    "mtime": 1779753161.8572521,
+    "ast_hash": "9327616c4c98ed6a811cda54a61ba8f7",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/nhci/Chapter_1_What_is_Interaction_Design.md": {
+    "mtime": 1779689227.652725,
+    "ast_hash": "20337ff1f9d99aa61285c787a4dca6d7",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/nhci/Chapter_5_Evaluation_and_Inspections.md": {
+    "mtime": 1779689227.6529846,
+    "ast_hash": "5538f3de1a1ef98d6f62bac964b73beb",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/nhci/Mock_Exam.md": {
+    "mtime": 1779753151.6912735,
+    "ast_hash": "8de9b07e31add2e607a682034b8e87b8",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/content/nhci/Chapter_3_Conceptualizing_Interaction.md": {
+    "mtime": 1779689227.6528716,
+    "ast_hash": "5d8537d82506b0e992b86c5087f95163",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/javascript.svg": {
+    "mtime": 1779479593.2384698,
+    "ast_hash": "87d1d2083848d70316c69d521947e98e",
+    "semantic_hash": ""
+  },
+  "/home/brown/Documents/School/NSOE/Exam Prep/learning-app/public/vite.svg": {
+    "mtime": 1779479593.2389908,
+    "ast_hash": "8e3a10e157f75ada21ab742c022d5430",
+    "semantic_hash": ""
+  }
+}

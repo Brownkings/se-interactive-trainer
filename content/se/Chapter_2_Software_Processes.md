@@ -44,7 +44,7 @@
 
 #### C. Integration and Configuration (Reuse-Oriented)
 * Based on systematic reuse where systems are assembled from existing components or Commercial-off-the-shelf (COTS) systems.
-* **Process Stages**: Component analysis $\rightarrow$ Requirements modification $\rightarrow$ System design with reuse $\rightarrow$ Development and integration.
+* **Process Stages**: Component analysis → Requirements modification → System design with reuse → Development and integration.
 * **Component Types**: Web services (remote invocation), Object packages (.NET/J2EE frameworks), and Stand-alone COTS systems.
 
 ### 4. Details of Process Activities

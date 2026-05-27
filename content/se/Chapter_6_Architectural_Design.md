@@ -67,12 +67,12 @@ An architectural pattern is a stylized, tested description of good design practi
 ### 6. Application Architectures
 Businesses have common needs, meaning application systems tend to have common architectures.
 * **Transaction Processing Systems**: Interactive systems that process user database queries or updates (e.g., E-commerce, ATMs, Reservations).
-  * *Request Flow*: User request $\rightarrow$ Transaction Manager $\rightarrow$ Database.
+  * *Request Flow*: User request → Transaction Manager → Database.
 * **Information Systems**: Layered systems that manage and retrieve database information (e.g., MHC-PMS).
-  * *MHC-PMS Layers*: User Interface $\rightarrow$ User Communications $\rightarrow$ Information Retrieval/Modification $\rightarrow$ Database.
-  * *Web implementation*: Multi-tier client-server (Web Server handles UI $\rightarrow$ Application Server handles logic $\rightarrow$ Database Server handles transactions).
+  * *MHC-PMS Layers*: User Interface → User Communications → Information Retrieval/Modification → Database.
+  * *Web implementation*: Multi-tier client-server (Web Server handles UI → Application Server handles logic → Database Server handles transactions).
 * **Language Processing Systems**: Accept a formal language as input and translate/interpret it (e.g., Compilers).
-  * *Compiler Components*: Lexical analyzer $\rightarrow$ Symbol table $\rightarrow$ Syntax analyzer $\rightarrow$ Syntax tree $\rightarrow$ Semantic analyzer $\rightarrow$ Code generator.
+  * *Compiler Components*: Lexical analyzer → Symbol table → Syntax analyzer → Syntax tree → Semantic analyzer → Code generator.
   * Compilers can be structured using a **Pipe and Filter** (sequential translation steps) or **Repository** pattern (sharing a central symbol table and syntax tree).
 
 ---
@@ -134,7 +134,7 @@ Businesses have common needs, meaning application systems tend to have common ar
 4. **b) Lexical analyzer**. The lexical analyzer translates raw source characters into discrete tokens.
 
 ### Section B Solutions
-5. **Pipe and Filter Compiler**: The compiler is structured as a sequence of filters (Lexical analysis $\rightarrow$ Syntax analysis $\rightarrow$ Semantic analysis $\rightarrow$ Code generation). The output stream of one filter serves as the input stream to the next, passing through pipes.
+5. **Pipe and Filter Compiler**: The compiler is structured as a sequence of filters (Lexical analysis → Syntax analysis → Semantic analysis → Code generation). The output stream of one filter serves as the input stream to the next, passing through pipes.
    * **Repository Compiler**: The compiler components (lexical analyzer, parser, code generator) are subsystems that interact via a central, shared repository containing the Symbol Table and the Abstract Syntax Tree (AST). Subsystems read and write data to this database.
 6. The **+1 View** represents the **Scenarios** or **Use Cases**. Its purpose is to relate the other four views (logical, process, development, physical) to actual user requirements, verifying that the architectural design is complete and coherent.
 7. **Mobile Banking Architectural Design**:

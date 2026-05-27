@@ -522,9 +522,86 @@ tabButtons.forEach(btn => {
 function inlineMarkdown(text) {
   if (!text) return '';
   return text
+    .replace(/\\\rightarrow/g, '→')
+    .replace(/\\rightarrow/g, '→')
+    .replace(/\$\\rightarrow\$/g, '→')
+    .replace(/\$\\to\$/g, '→')
+    .replace(/->/g, '→')
+    .replace(/\$\$(.*?)\$\$/g, '$1')
+    .replace(/\$(.*?)\$/g, '$1')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     .replace(/`(.*?)`/g, '<code class="inline-code">$1</code>');
+}
+
+/**
+ * Parses a single flowchart markdown line into visual interactive HTML.
+ */
+function parseFlowchart(line) {
+  // Strip leading bullet (*, -) or number (1., 2.)
+  let cleanLine = line.replace(/^[\*\-\d\.\s]+\s*/, '');
+  
+  // Check if there's a label before a colon
+  let label = '';
+  const colonIdx = cleanLine.indexOf(':');
+  if (colonIdx > 0 && colonIdx < 50 && cleanLine.slice(colonIdx + 1).includes('→')) {
+    label = cleanLine.slice(0, colonIdx).trim();
+    cleanLine = cleanLine.slice(colonIdx + 1).trim();
+  }
+  
+  const steps = cleanLine.split('→').map(s => s.trim()).filter(Boolean);
+  if (steps.length < 2) return null;
+  
+  // Validate steps to prevent rendering long sentences/paragraphs with arrows as flowcharts
+  const isInvalid = steps.some(step => step.length > 50 || step.includes('. '));
+  if (isInvalid) return null;
+  
+  let html = '';
+  if (label) {
+    html += `<div class="flowchart-label">${inlineMarkdown(label)}</div>`;
+  }
+  
+  let containerClass = 'flowchart-container';
+  const lastStepLower = steps[steps.length - 1].toLowerCase();
+  if (lastStepLower.includes('repeat') || lastStepLower.includes('loop')) {
+    containerClass += ' flowchart-cyclic';
+  }
+  
+  html += `<div class="${containerClass}">`;
+  steps.forEach((step, idx) => {
+    const stepNum = idx + 1;
+    const inlineStep = inlineMarkdown(step);
+    let stepClass = 'flowchart-step';
+    
+    const lowerStep = step.toLowerCase();
+    if (lowerStep.includes('fail')) {
+      stepClass += ' step-danger';
+    } else if (lowerStep.includes('pass') || lowerStep.includes('success')) {
+      stepClass += ' step-success';
+    } else if (lowerStep.includes('refactor')) {
+      stepClass += ' step-warning';
+    } else if (lowerStep.includes('repeat') || lowerStep.includes('loop')) {
+      stepClass += ' step-info';
+    } else if (lowerStep.includes('test') || lowerStep.includes('write')) {
+      stepClass += ' step-primary';
+    }
+    
+    html += `
+      <div class="${stepClass}" data-step="${stepNum}">
+        <div class="flowchart-step-num">${stepNum}</div>
+        <div class="flowchart-step-text">${inlineStep}</div>
+      </div>
+    `;
+    if (idx < steps.length - 1) {
+      html += `
+        <div class="flowchart-arrow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      `;
+    }
+  });
+  html += '</div>';
+  return html;
 }
 
 /**
@@ -554,15 +631,35 @@ function markdownToHtml(rawContent) {
   }
 
   for (const rawLine of lines) {
-    const trimmed = rawLine.trim();
+    let trimmed = rawLine.trim();
     if (trimmed.length === 0) {
       closeList();
       continue;
     }
 
+    // Pre-normalize arrows for flowchart detection
+    trimmed = trimmed
+      .replace(/\\\rightarrow/g, '→')
+      .replace(/\\rightarrow/g, '→')
+      .replace(/\$\\rightarrow\$/g, '→')
+      .replace(/\$\\to\$/g, '→')
+      .replace(/->/g, '→')
+      .replace(/\$\$(.*?)\$\$/g, '$1')
+      .replace(/\$(.*?)\$/g, '$1');
+
     // Detect indentation level (sub-items have leading spaces or tabs)
     const indent = rawLine.search(/\S/);
     const isSubItem = indent >= 2;
+
+    // --- Flowchart detection ---
+    if ((trimmed.match(/→/g) || []).length >= 2) {
+      const flowchartHtml = parseFlowchart(trimmed);
+      if (flowchartHtml) {
+        closeList();
+        htmlParts.push(flowchartHtml);
+        continue;
+      }
+    }
 
     // --- Sub-headings (#### or ###) ---
     const h4Match = trimmed.match(/^####\s+(.*)/);
