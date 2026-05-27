@@ -285,27 +285,41 @@
             <!-- Segments -->
             <div class="supercheat-segment">
               <h4>1. Requirements (Ch 4)</h4>
-              <p><strong>Functional:</strong> System services, how it reacts to inputs.<br><strong>Non-functional:</strong> Constraints on services (timing, standards, process).</p>
+              <p><strong>Functional:</strong> Services system provides, reactions to inputs, specific behaviors.<br>
+              <strong>Non-functional:</strong> Constraints on services (e.g., timing, dev process, standards, storage). Often applies to system as a whole.<br>
+              <strong>RE Process:</strong> Elicitation &rarr; Specification &rarr; Validation &rarr; Management.</p>
             </div>
             <div class="supercheat-segment">
               <h4>2. System Models (Ch 5)</h4>
-              <p><strong>Context:</strong> Boundaries. <strong>Interaction (Use Case):</strong> User & system. <strong>Structural (Class):</strong> Organization. <strong>Behavioral:</strong> State/Sequence.</p>
+              <p><strong>Context:</strong> External boundaries/environment. <strong>Use Case:</strong> Actor-system interactions. <br>
+              <strong>Sequence:</strong> Interactions b/w objects over time. <br>
+              <strong>Class:</strong> Object structures/relationships (inheritance, association). <br>
+              <strong>State:</strong> System responses to events. <strong>Activity:</strong> Process workflow.</p>
             </div>
             <div class="supercheat-segment">
               <h4>3. Architectures (Ch 6)</h4>
-              <p><strong>Patterns:</strong> MVC, Layered, Repository, Client-Server. <strong>4+1 Views:</strong> Logical, Process, Development, Physical + Scenarios.</p>
+              <p><strong>Patterns:</strong> <em>MVC</em> (separates data/view/control), <em>Layered</em> (incremental dev/security), <em>Repository</em> (central data sharing), <em>Client-Server</em> (distributed), <em>Pipe/Filter</em> (data transformations).<br>
+              <strong>4+1 Views:</strong> Logical (objects), Process (run-time), Dev (components), Physical (hardware), plus Use Cases/Scenarios.</p>
             </div>
             <div class="supercheat-segment">
-              <h4>4. Agile (Ch 3)</h4>
-              <p><strong>Agile:</strong> Iterative, indiv over process, customer collab.<br><strong>Scrum:</strong> Sprints, Scrum Master, Product Owner.</p>
+              <h4>4. Agile Methods (Ch 3)</h4>
+              <p><strong>Manifesto:</strong> Indiv/interactions over process; working software over docs; customer collab over contracts; responding to change.<br>
+              <strong>Scrum:</strong> Sprints, Scrum Master (facilitates), Product Owner (backlog).<br>
+              <strong>XP:</strong> Pair programming, continuous integration, test-first dev.</p>
             </div>
             <div class="supercheat-segment">
               <h4>5. Testing Strategies (Ch 8)</h4>
-              <p><strong>Dev Testing:</strong> Unit, Component, System.<br><strong>TDD:</strong> Write test -> Fail -> Code -> Pass -> Refactor.</p>
+              <p><strong>V&V:</strong> Validation (right product?) vs Verification (product right?).<br>
+              <strong>Stages:</strong> Unit (individual), Component (composite), System (integration).<br>
+              <strong>TDD:</strong> Test &rarr; Fail &rarr; Code &rarr; Pass &rarr; Refactor. (Improves coverage & debugging).<br>
+              <strong>Release Testing:</strong> Black-box testing for the final user.</p>
             </div>
             <div class="supercheat-segment">
               <h4>6. Interface Errors (Ch 8)</h4>
-              <p><strong>Misuse:</strong> Wrong parameters.<br><strong>Misunderstanding:</strong> Wrong assumptions.<br><strong>Timing:</strong> Out-of-date data access.</p>
+              <p><strong>Types:</strong> Parameter, Shared memory, Procedural, Message passing.<br>
+              <strong>Misuse:</strong> Calling with wrong parameter order or types.<br>
+              <strong>Misunderstanding:</strong> Wrong assumptions about callee's preconditions/behavior.<br>
+              <strong>Timing:</strong> Out-of-sync data access b/w producer and consumer.</p>
             </div>
           </div>
         </div>
